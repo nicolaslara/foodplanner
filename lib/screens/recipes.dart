@@ -33,9 +33,11 @@ class _RecipeListState extends State<RecipeList> {
 
   Widget _recipeList() {
     return ListView.builder(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(20),
       itemBuilder: (BuildContext context, int index) {
-        _recipes.add("test" + index.toString());
+        if (index >= _recipes.length) {
+          _recipes.add("test " + index.toString());
+        }
         return _buildRow(_recipes[index]);
       },
     );
