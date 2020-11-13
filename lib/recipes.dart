@@ -31,7 +31,7 @@ class _RecipeListState extends State<RecipeList> {
                     return ListTile(title: Text(word, style: _biggerFont));
                   }
               );
-`
+
               final list = ListTile.divideTiles(
                 context: context,
                 tiles: tiles,
