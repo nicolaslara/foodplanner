@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/widgets/recipe.dart';
 
 class RecipeList extends StatefulWidget {
   RecipeList({Key key, this.title}) : super(key: key);
@@ -12,7 +13,6 @@ class RecipeList extends StatefulWidget {
 class _RecipeListState extends State<RecipeList> {
   final _recipes = <String>[];
   final _saved = <String>[];
-  final _biggerFont = TextStyle(fontSize: 18.0);
 
   int _counter = 0;
 
@@ -26,11 +26,8 @@ class _RecipeListState extends State<RecipeList> {
     Navigator.of(context).push(
         MaterialPageRoute<void>(
             builder: (BuildContext context) {
-              final tiles = _saved.map(
-                      (String word){
-                    return ListTile(title: Text(word, style: _biggerFont));
-                  }
-              );
+              final tiles = _saved.map((String word) => Recipe(
+                  title: word, saved: true));
 
               final list = ListTile.divideTiles(
                 context: context,
@@ -65,18 +62,14 @@ class _RecipeListState extends State<RecipeList> {
 
   Widget _buildRow(word) {
     final saved = _saved.contains(word);
-    return ListTile(
-      title: Text(
-        word,
-        style: _biggerFont,
+    return InkWell(
+      child: Recipe(
+        title: word,
+        saved: _saved.contains(word),
       ),
-      trailing: Icon(
-          saved ?  Icons.favorite : Icons.favorite_border,
-          color: saved ? Colors.red : null
-      ),
-      onTap: (){
+      onTap: () {
         setState(() {
-          if (_saved.contains(word)){
+          if (_saved.contains(word)) {
             _saved.remove(word);
           } else {
             _saved.add(word);

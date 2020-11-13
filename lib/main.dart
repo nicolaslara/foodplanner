@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:foodplanner/recipes.dart';
+import 'package:foodplanner/screens/recipes.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(FoodPlanner());
 }
 
-class MyApp extends StatelessWidget {
+class FoodPlanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -19,3 +19,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/*
+* ToDo:
+*  - Experiment with state management (states_rebuilder? https://github.com/gskinnerTeam/flutter-mvcs-hello-world?)
+*  - Integrate with Firebase
+*  - Add separate screens and Routes
+*  - Make responsive
+*
+*
+* */
