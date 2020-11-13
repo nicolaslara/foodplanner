@@ -14,14 +14,6 @@ class _RecipeListState extends State<RecipeList> {
   final _recipes = <String>[];
   final _saved = <String>[];
 
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   void _showSaved(){
     Navigator.of(context).push(
         MaterialPageRoute<void>(
@@ -51,7 +43,7 @@ class _RecipeListState extends State<RecipeList> {
       itemBuilder: (BuildContext context, int i) {
         if(i==0) return Container(width: 0, height: 0);
         if (i % divideBy == 0) return Divider();
-        final index = i - (i ~/ divideBy) + _counter;
+        final index = i - (i ~/ divideBy);
         if (index >= _recipes.length) {
           _recipes.add("test" + index.toString());
         }
@@ -84,14 +76,9 @@ class _RecipeListState extends State<RecipeList> {
     return Scaffold(
       appBar: AppBar(
           title: Text(widget.title),
-          actions: [ IconButton(icon: Icon(Icons.list), onPressed: _showSaved,)]
+          actions: [ IconButton(icon: Icon(Icons.star), onPressed: _showSaved,)]
       ),
       body: _recipeList(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
     );
   }
 }
