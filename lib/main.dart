@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodplanner/screens/recipes.dart';
 import 'package:foodplanner/widgets/navigation.dart';
 
 void main() {

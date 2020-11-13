@@ -19,16 +19,11 @@ class _RecipeListState extends State<RecipeList> {
         MaterialPageRoute<void>(
             builder: (BuildContext context) {
               final tiles = _saved.map((String word) => Recipe(
-                  title: word, saved: true));
-
-              final list = ListTile.divideTiles(
-                context: context,
-                tiles: tiles,
-              ).toList();
+                  title: word, saved: true)).toList();
 
               return Scaffold(
                 appBar: AppBar(title: Text('Saved')),
-                body: ListView(children: list, padding: EdgeInsets.all(16.0)),
+                body: ListView(children: tiles, padding: EdgeInsets.all(16.0)),
               );
 
             }
@@ -37,23 +32,16 @@ class _RecipeListState extends State<RecipeList> {
   }
 
   Widget _recipeList() {
-    final divideBy = 2;
     return ListView.builder(
       padding: EdgeInsets.all(16.0),
-      itemBuilder: (BuildContext context, int i) {
-        if(i==0) return Container(width: 0, height: 0);
-        if (i % divideBy == 0) return Divider();
-        final index = i - (i ~/ divideBy);
-        if (index >= _recipes.length) {
-          _recipes.add("test" + index.toString());
-        }
-        return _buildRow(_recipes[index-1]);
+      itemBuilder: (BuildContext context, int index) {
+        _recipes.add("test" + index.toString());
+        return _buildRow(_recipes[index]);
       },
     );
   }
 
   Widget _buildRow(word) {
-    final saved = _saved.contains(word);
     return InkWell(
       child: Recipe(
         title: word,

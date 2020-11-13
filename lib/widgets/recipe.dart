@@ -10,14 +10,16 @@ class Recipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        title: Text(
-          title,
-          style: _biggerFont,
-        ),
-        trailing: Icon(
-            saved ?  Icons.favorite : Icons.favorite_border,
-            color: saved ? Colors.red : null
+    return Card(
+        child: ListTile(
+            title: Text(
+              title,
+              style: _biggerFont,
+            ),
+            trailing: Icon(
+                saved ?  Icons.favorite : Icons.favorite_border,
+                color: saved ? Colors.red : null
+            )
         )
     );
   }
