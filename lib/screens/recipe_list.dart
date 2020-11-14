@@ -5,7 +5,7 @@ class RecipeList extends StatefulWidget {
   RecipeList({Key key, this.title, this.filter=false}) : super(key: key);
 
   final String title;
-  bool filter;
+  final bool filter;
 
   @override
   _RecipeListState createState() => _RecipeListState();
