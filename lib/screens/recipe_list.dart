@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/widgets/recipe.dart';
 
 class RecipeList extends StatefulWidget {
-  RecipeList({Key key, this.title, this.filter}) : super(key: key);
+  RecipeList({Key key, this.title, this.filter=false}) : super(key: key);
 
   final String title;
-  final bool filter;
+  bool filter;
 
   @override
   _RecipeListState createState() => _RecipeListState();

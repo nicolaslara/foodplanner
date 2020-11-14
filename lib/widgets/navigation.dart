@@ -52,7 +52,7 @@ class _NavigationState extends State<Navigation> {
   int routeIndex = 0;
 
   static final routeMap = [
-    RecipeList(title: 'Recipes', filter: false),
+    RecipeList(title: 'Recipes'),
     RecipeList(title: 'Selected', filter: true),
     ThirdScreen(),
     FourthScreen()
