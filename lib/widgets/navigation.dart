@@ -2,26 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/recipe_list.dart';
 
 
-
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Screen"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-          },
-          child: Text('Go back!'),
-        ),
-      ),
-    );
-  }
-}
-
-
 class ThirdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -72,8 +52,8 @@ class _NavigationState extends State<Navigation> {
   int routeIndex = 0;
 
   static final routeMap = [
-    RecipeList(title: 'Recipes'),
-    SecondScreen(),
+    RecipeList(title: 'Recipes', filter: false),
+    RecipeList(title: 'Selected', filter: true),
     ThirdScreen(),
     FourthScreen()
   ];

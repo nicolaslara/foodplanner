@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/widgets/recipe.dart';
 
 class RecipeList extends StatefulWidget {
-  RecipeList({Key key, this.title}) : super(key: key);
+  RecipeList({Key key, this.title, this.filter}) : super(key: key);
 
   final String title;
+  bool filter = false;
 
   @override
   _RecipeListState createState() => _RecipeListState();
@@ -14,24 +15,14 @@ class _RecipeListState extends State<RecipeList> {
   final _recipes = <String>[];
   final _saved = <String>[];
 
-  void _showSaved(){
-    Navigator.of(context).push(
-        MaterialPageRoute<void>(
-            builder: (BuildContext context) {
-              final tiles = _saved.map((String word) => Recipe(
-                  title: word, saved: true)).toList();
-
-              return Scaffold(
-                appBar: AppBar(title: Text('Saved')),
-                body: ListView(children: tiles, padding: EdgeInsets.all(16.0)),
-             );
-
-            }
-        )
-    );
-  }
-
   Widget _recipeList() {
+    if (widget.filter) {
+      final tiles = _saved.map((String word) => Recipe(
+      title: word, saved: true)).toList();
+
+      return ListView(children: tiles, padding: EdgeInsets.all(20));
+    }
+
     return ListView.builder(
       padding: EdgeInsets.all(20),
       itemBuilder: (BuildContext context, int index) {
