@@ -101,7 +101,7 @@ class _NavigationState extends State<Navigation> {
               label: 'Recipes',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
+              icon: Icon(Icons.star),
               label: 'This Week',
             ),
             BottomNavigationBarItem(

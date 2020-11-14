@@ -34,7 +34,7 @@ class Recipe extends StatelessWidget {
                     ]),
               ),
               Icon(
-                  saved ?  Icons.favorite : Icons.favorite_border,
+                  saved ?  Icons.star : Icons.star_border,
                   color: saved ? Colors.red : null
               ),
             ],
