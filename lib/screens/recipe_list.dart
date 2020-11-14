@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodplanner/widgets/recipe.dart';
+import 'package:foodplanner/widgets/recipe_card.dart';
 
 class RecipeList extends StatefulWidget {
   RecipeList({Key key, this.title, this.filter=false}) : super(key: key);
@@ -18,7 +18,7 @@ class _RecipeListState extends State<RecipeList> {
 
   Widget _recipeList() {
     if (this._filter) {
-      final tiles = _saved.map((String word) => Recipe(
+      final tiles = _saved.map((String word) => RecipeCard(
       title: word, saved: true)).toList();
 
       return ListView(children: tiles, padding: EdgeInsets.all(20));
@@ -37,7 +37,7 @@ class _RecipeListState extends State<RecipeList> {
 
   Widget _buildRow(word) {
     return InkWell(
-      child: Recipe(
+      child: RecipeCard(
         title: word,
         saved: _saved.contains(word),
       ),
