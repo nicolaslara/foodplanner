@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodplanner/screens/recipes.dart';
+import 'package:foodplanner/screens/recipe_list.dart';
 
 
 
