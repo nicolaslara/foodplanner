@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
+import 'package:provider/provider.dart';
 
 class RecipeList extends StatefulWidget {
   RecipeList({Key key, this.title, this.filter=false}) : super(key: key);
@@ -12,7 +14,6 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
-  final _recipes = <String>[];
   final _saved = <String>[];
   bool _filter = false;
 
@@ -27,10 +28,11 @@ class _RecipeListState extends State<RecipeList> {
     return ListView.builder(
       padding: EdgeInsets.all(20),
       itemBuilder: (BuildContext context, int index) {
-        if (index >= _recipes.length) {
-          _recipes.add("test " + index.toString());
+        var pool = Provider.of<RecipePool>(context);
+        if (index >= pool.recipes.length) {
+          pool.addRecipe("test " + index.toString());
         }
-        return _buildRow(_recipes[index]);
+        return _buildRow(pool.recipes[index]);
       },
     );
   }
@@ -56,12 +58,15 @@ class _RecipeListState extends State<RecipeList> {
   @override
   Widget build(BuildContext context) {
     this._filter = widget.filter;
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.title),
-          actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
+    return ChangeNotifierProvider(
+      create: (context) => RecipePool(),
+      child: Scaffold(
+        appBar: AppBar(
+            title: Text(widget.title),
+            actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
+        ),
+        body: _recipeList(),
       ),
-      body: _recipeList(),
     );
   }
 }
