@@ -5,7 +5,7 @@ class RecipeList extends StatefulWidget {
   RecipeList({Key key, this.title, this.filter}) : super(key: key);
 
   final String title;
-  bool filter = false;
+  final bool filter;
 
   @override
   _RecipeListState createState() => _RecipeListState();
@@ -14,9 +14,10 @@ class RecipeList extends StatefulWidget {
 class _RecipeListState extends State<RecipeList> {
   final _recipes = <String>[];
   final _saved = <String>[];
+  bool _filter = false;
 
   Widget _recipeList() {
-    if (widget.filter) {
+    if (this._filter) {
       final tiles = _saved.map((String word) => Recipe(
       title: word, saved: true)).toList();
 
@@ -54,6 +55,7 @@ class _RecipeListState extends State<RecipeList> {
 
   @override
   Widget build(BuildContext context) {
+    this._filter = widget.filter;
     return Scaffold(
       appBar: AppBar(
           title: Text(widget.title),
