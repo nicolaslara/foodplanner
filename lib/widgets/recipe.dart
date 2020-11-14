@@ -10,34 +10,42 @@ class Recipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
+    return Container(
+      margin: const EdgeInsets.all(3),
       constraints: BoxConstraints.expand(height: 200),
       child: Card(
-          child: Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(flex: 1, child: FlutterLogo()),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(title, style: _biggerFont),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [Text('Cals'), Text('Prot'), Text('Carbs'), Text('Fat')]),
-                        ],
-                      ),
-                    ]),
-              ),
-              Icon(
-                  saved ?  Icons.star : Icons.star_border,
-                  color: saved ? Colors.red : null
-              ),
-            ],
+          elevation: 3,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(flex: 1, child: FlutterLogo()),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(title, style: _biggerFont),
+                            ),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [Text('235 kcal'), Text('P: 18g'), Text('C: 15g'), Text('F: 3g')]),
+                          ],
+                        ),
+                      ]),
+                ),
+                Icon(
+                    saved ?  Icons.star : Icons.star_border,
+                    color: saved ? Colors.red : null
+                ),
+              ],
+            ),
           )
       ),
     );

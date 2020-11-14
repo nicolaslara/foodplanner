@@ -66,7 +66,7 @@ class _RecipeListState extends State<RecipeList> {
     return Scaffold(
       appBar: AppBar(
           title: Text(widget.title),
-          actions: [ IconButton(icon: Icon(Icons.star), onPressed: _showSaved,)]
+          actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
       ),
       body: _recipeList(),
     );
