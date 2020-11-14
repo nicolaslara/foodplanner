@@ -10,8 +10,43 @@ class Recipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: ListTile(
+    return ConstrainedBox(
+      constraints: BoxConstraints.expand(height: 200),
+      child: Card(
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 3,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(flex: 1, child: FlutterLogo()),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(title, style: _biggerFont),
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Text('Cals'), Text('Prot'), Text('Carbs'), Text('Fat')]),
+                        ],
+                      ),
+                    ]),
+              ),
+              Icon(
+                  saved ?  Icons.favorite : Icons.favorite_border,
+                  color: saved ? Colors.red : null
+              ),
+            ],
+          )
+      ),
+    );
+  }
+
+}
+
+/*
+ListTile(
             title: Text(
               title,
               style: _biggerFont,
@@ -21,7 +56,4 @@ class Recipe extends StatelessWidget {
                 color: saved ? Colors.red : null
             )
         )
-    );
-  }
-
-}
+ */
