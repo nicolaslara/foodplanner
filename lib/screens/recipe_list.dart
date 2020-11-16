@@ -14,6 +14,7 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
+  final _recipes = <String>[];
   final _saved = <String>[];
   bool _filter = false;
 
@@ -26,15 +27,17 @@ class _RecipeListState extends State<RecipeList> {
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(20),
-      itemBuilder: (BuildContext context, int index) {
-        var pool = Provider.of<RecipePool>(context);
-        if (index >= pool.recipes.length) {
-          pool.addRecipe("test " + index.toString());
-        }
-        return _buildRow(pool.recipes[index]);
-      },
-    );
+        padding: EdgeInsets.all(20),
+        itemBuilder: (BuildContext context, int index) {
+          Iterator<String> iterator = Provider.of<RecipePool>(context).iterator;
+          iterator.moveNext();
+          String item = iterator.current;
+          if (index >= int.parse(item)) {
+            return _buildRow(item);
+          }
+          return Divider();
+        });
+
   }
 
   Widget _buildRow(word) {
@@ -45,11 +48,12 @@ class _RecipeListState extends State<RecipeList> {
       ),
       onTap: () {
         setState(() {
-          if (_saved.contains(word)) {
-            _saved.remove(word);
-          } else {
-            _saved.add(word);
-          }
+          print('Update?');
+          // if (_saved.contains(word)) {
+          //   _saved.remove(word);
+          // } else {
+          //   _saved.add(word);
+          // }
         });
       },
     );
@@ -61,12 +65,12 @@ class _RecipeListState extends State<RecipeList> {
     return ChangeNotifierProvider(
       create: (context) => RecipePool(),
       child: Scaffold(
-        appBar: AppBar(
-            title: Text(widget.title),
-            actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
+          appBar: AppBar(
+              title: Text(widget.title),
+              actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
+          ),
+          body: _recipeList(),
         ),
-        body: _recipeList(),
-      ),
     );
   }
 }
