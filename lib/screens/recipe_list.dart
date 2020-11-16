@@ -18,20 +18,20 @@ class _RecipeListState extends State<RecipeList> {
   bool _filter = false;
 
   Widget _recipeList() {
+
+    RecipePool pool = Provider.of<RecipePool>(context);
     if (this._filter) {
-      return Text('Saved here');
-      // final tiles = _saved.map((String word) => RecipeCard(
-      // title: word, saved: true)).toList();
-      //
-      // return ListView(children: tiles, padding: EdgeInsets.all(20));
+      final saved = pool.recipes.where((Recipe recipe) => recipe.saved);
+      final tiles = saved.map(
+              (recipe) => RecipeCard(title: recipe.title, saved: true)).toList();
+      return ListView(padding: EdgeInsets.all(20), children: tiles,);
     }
 
     return ListView.builder(
         padding: EdgeInsets.all(20),
         itemBuilder: (context, int index) {
-          RecipePool pool = Provider.of<RecipePool>(context);
           if (index < pool.recipes.length) {
-            return _buildRow(pool.recipes[index]);
+            return _buildRow(pool, index);
           } else {
             SchedulerBinding.instance.addPostFrameCallback(
                     (duration) => pool.addRecipe('test ${index}')
@@ -41,18 +41,14 @@ class _RecipeListState extends State<RecipeList> {
         });
   }
 
-  Widget _buildRow(recipe) {
+  Widget _buildRow(pool, index) {
     return InkWell(
       child: RecipeCard(
-        title: recipe.title,
-        saved: recipe.saved ?? false
+        title: pool.recipes[index].title,
+        saved: pool.recipes[index].saved ?? false
       ),
       onTap: () {
-        if (recipe.saved ?? false) {
-          recipe.saved = true;
-        } else {
-          recipe.saved = false;
-        }
+        pool.toggleSaved(index);
       },
     );
   }
@@ -60,15 +56,12 @@ class _RecipeListState extends State<RecipeList> {
   @override
   Widget build(context) {
     this._filter = widget.filter;
-    return ChangeNotifierProvider(
-      create: (context) => RecipePool(),
-      child: Scaffold(
+    return Scaffold(
           appBar: AppBar(
               title: Text(widget.title),
               actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
           ),
-          body: _recipeList(),
-        ),
+          body: _recipeList()
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/recipe_list.dart';
+import 'package:foodplanner/stores/recipe_pool.dart';
+import 'package:provider/provider.dart';
 
 
 class ThirdScreen extends StatelessWidget {
@@ -66,36 +68,39 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-          child: routeMap.elementAt(routeIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.purple,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white54,
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.house),
-              label: 'Recipes',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'This Week',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_sharp),
-              label: 'Shopping List',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.pie_chart),
-              label: 'Stats',
-            ),
-          ],
-          currentIndex: routeIndex,
-          onTap: _onItemTapped,
-        ));
+    return ChangeNotifierProvider(
+      create: (context) => RecipePool(),
+      child: Scaffold(
+          body: Center(
+            child: routeMap.elementAt(routeIndex),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.purple,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white54,
+            type: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.house),
+                label: 'Recipes',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.star),
+                label: 'This Week',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_sharp),
+                label: 'Shopping List',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pie_chart),
+                label: 'Stats',
+              ),
+            ],
+            currentIndex: routeIndex,
+            onTap: _onItemTapped,
+          )),
+    );
   }
 
 }

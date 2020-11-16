@@ -4,7 +4,7 @@ class Recipe {
   Recipe({this.title});
 
   String title;
-  bool saved;
+  bool saved = false;
 }
 
 
@@ -15,6 +15,11 @@ class RecipePool extends ChangeNotifier {
 
   void addRecipe(String title){
     _recipes.add(Recipe(title: title));
+    notifyListeners();
+  }
+
+  void toggleSaved(index){
+    _recipes[index].saved = !_recipes[index].saved;
     notifyListeners();
   }
 
