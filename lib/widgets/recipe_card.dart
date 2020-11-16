@@ -4,10 +4,9 @@ class RecipeCard extends StatelessWidget {
   static const _biggerFont = TextStyle(fontSize: 18.0);
 
   final String title;
-  final int index;
   final bool saved;
 
-  RecipeCard({this.title, this.index, this.saved=false});
+  RecipeCard({this.title, this.saved=false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class RecipeCard extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text('${title} ${index}', style: _biggerFont),
+                              child: Text(title, style: _biggerFont),
                             ),
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.center,

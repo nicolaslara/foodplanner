@@ -30,48 +30,21 @@ class _RecipeListState extends State<RecipeList> {
         padding: EdgeInsets.all(20),
         itemBuilder: (context, int index) {
           RecipePool pool = Provider.of<RecipePool>(context);
-          // SchedulerBinding.instance.addPostFrameCallback(
-          //     (duration) => pool.addRecipe('test')
-          // );
-          pool.addRecipe('test');
-
-          return FutureBuilder(
-            future: Future.delayed(const Duration(milliseconds: 1000), () {
-              List<Recipe> recipes = pool.recipes;
-              Recipe recipe = recipes.length > index ? recipes[index] : null;
-              return recipe;
-            }),
-            builder: (context, snapshot) {
-              var ret;
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.active:
-                case ConnectionState.waiting:
-                  return Align(
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator()
-                  );
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return _buildRow(snapshot.data, index);
-                  }
-              }
-              return ret;
-          });
+          if (index < pool.recipes.length) {
+            return _buildRow(pool.recipes[index]);
+          } else {
+            SchedulerBinding.instance.addPostFrameCallback(
+                    (duration) => pool.addRecipe('test ${index}')
+            );
+            return Divider();
+          }
         });
-
   }
 
-  Widget _buildRow(recipe, index) {
-    if (recipe == null){
-      return Divider();
-    }
+  Widget _buildRow(recipe) {
     return InkWell(
       child: RecipeCard(
         title: recipe.title,
-        index: index,
         saved: recipe.saved ?? false
       ),
       onTap: () {
