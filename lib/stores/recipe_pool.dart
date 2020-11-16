@@ -1,27 +1,20 @@
 import 'package:flutter/foundation.dart';
 
+class Recipe {
+  Recipe({this.title});
+
+  String title;
+  bool saved;
+}
+
+
 class RecipePool extends ChangeNotifier {
-  List<String> _recipes = [];
+  List<Recipe> _recipes = [];
 
-  List<String> get recipes => _recipes;
-
-  Iterator<String> iterator;
-
-  RecipePool() : super() {
-    iterator = recipeIterator().iterator;
-  }
-
-  Iterable<String> recipeIterator() sync* {
-    var n = 0;
-    while(true) {
-      yield n.toString();
-      n++;
-    }
-  }
-
+  List<Recipe> get recipes => _recipes;
 
   void addRecipe(String title){
-    _recipes.add(title);
+    _recipes.add(Recipe(title: title));
     notifyListeners();
   }
 
