@@ -53,7 +53,7 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   int routeIndex = 0;
 
-  static final routeMap = [
+  static final pageList = [
     RecipeList(title: 'Recipes'),
     RecipeList(title: 'Selected', filter: true),
     ThirdScreen(),
@@ -71,8 +71,9 @@ class _NavigationState extends State<Navigation> {
     return ChangeNotifierProvider(
       create: (context) => RecipePool(),
       child: Scaffold(
-          body: Center(
-            child: routeMap.elementAt(routeIndex),
+          body: IndexedStack(
+            index: routeIndex,
+            children: pageList,
           ),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.purple,
