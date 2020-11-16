@@ -76,7 +76,7 @@ class _NavigationState extends State<Navigation> {
             children: pageList,
           ),
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.purple,
+            backgroundColor: Colors.deepPurple,
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white54,
             type: BottomNavigationBarType.fixed,

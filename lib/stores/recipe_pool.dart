@@ -14,6 +14,7 @@ class RecipePool extends ChangeNotifier {
   List<Recipe> get recipes => _recipes;
 
   void addRecipe(String title){
+
     _recipes.add(Recipe(title: title));
     notifyListeners();
   }

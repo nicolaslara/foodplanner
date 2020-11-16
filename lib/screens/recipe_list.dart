@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
@@ -34,7 +35,7 @@ class _RecipeListState extends State<RecipeList> {
             return _buildRow(pool, index);
           } else {
             SchedulerBinding.instance.addPostFrameCallback(
-                    (duration) => pool.addRecipe('test ${index}')
+                    (duration) => pool.addRecipe('test $index')
             );
             return Divider();
           }
@@ -53,15 +54,50 @@ class _RecipeListState extends State<RecipeList> {
     );
   }
 
+  Widget _buildRowRemote(document) {
+    return InkWell(
+      child: RecipeCard(
+          title: document["title"],
+          saved: document["saved"] ?? false
+      ),
+      onTap: () {
+        FirebaseFirestore.instance.runTransaction((transaction) async {
+          DocumentSnapshot snapshot = await transaction.get(document.reference);
+          transaction.update(document.reference, {
+            'saved': !snapshot['saved']
+          });
+        });
+      },
+    );
+  }
+
   @override
   Widget build(context) {
     this._filter = widget.filter;
+    Query query;
+    if (widget.filter){
+      query = FirebaseFirestore.instance.collection('recipes').orderBy('title').where('saved', isEqualTo: true);
+    } else {
+      query = FirebaseFirestore.instance.collection('recipes').orderBy('title');
+    }
     return Scaffold(
           appBar: AppBar(
               title: Text(widget.title),
               actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
           ),
-          body: _recipeList()
+          body: StreamBuilder(
+            stream: query.snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              };
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, index) => _buildRowRemote(snapshot.data.documents[index])
+              );
+            },
+
+          )
     );
   }
 }
