@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
 
 class RecipeList extends StatelessWidget {
-  RecipeList({Key key, this.title, this.filter=false}) : super(key: key);
+  RecipeList({Key key, this.title, this.selected=false}) : super(key: key);
 
   final String title;
-  final bool filter;
+  final bool selected;
 
   Widget _buildRow(document) {
-
-
     return Stack(
       children: [
         RecipeCard(
@@ -22,7 +20,7 @@ class RecipeList extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                   onTap: () {
-                    if (this.filter) return null;
+                    if (this.selected) return null;
                     FirebaseFirestore.instance.runTransaction((transaction) async {
                       DocumentSnapshot snapshot = await transaction.get(document.reference);
                       transaction.update(document.reference, {
@@ -39,7 +37,7 @@ class RecipeList extends StatelessWidget {
   @override
   Widget build(context) {
     Query query;
-    if (this.filter){
+    if (this.selected){
       query = FirebaseFirestore.instance.collection('recipes').where('saved', isEqualTo: true);
     } else {
       query = FirebaseFirestore.instance.collection('recipes');

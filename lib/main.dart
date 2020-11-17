@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/navigation_controls.dart';
 import 'package:foodplanner/widgets/navigation.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(FoodPlanner());
@@ -21,7 +23,10 @@ class FoodPlanner extends StatelessWidget {
         }
         var app;
         if (snapshot.connectionState == ConnectionState.done) {
-          app = Navigation();
+          app = ChangeNotifierProvider(
+              create: (context) => NavigationController(),
+              child: Navigation()
+          );
         }else {
           app =  Scaffold(
               backgroundColor: Colors.deepPurple,
