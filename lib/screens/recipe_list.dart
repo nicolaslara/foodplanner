@@ -9,21 +9,30 @@ class RecipeList extends StatelessWidget {
   final bool filter;
 
   Widget _buildRow(document) {
-    return InkWell(
-      child: RecipeCard(
-          title: document["title"],
-          saved: document["saved"] ?? false
-      ),
-      onTap: () {
-        if (this.filter) return null;
 
-        FirebaseFirestore.instance.runTransaction((transaction) async {
-          DocumentSnapshot snapshot = await transaction.get(document.reference);
-          transaction.update(document.reference, {
-            'saved': !snapshot['saved']
-          });
-        });
-      },
+
+    return Stack(
+      children: [
+        RecipeCard(
+            title: document["title"],
+            saved: document["saved"] ?? false
+        ),
+        Positioned.fill(
+          child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                  onTap: () {
+                    if (this.filter) return null;
+                    FirebaseFirestore.instance.runTransaction((transaction) async {
+                      DocumentSnapshot snapshot = await transaction.get(document.reference);
+                      transaction.update(document.reference, {
+                        'saved': !snapshot['saved']
+                      });
+                    });
+                  })
+          ),
+        ),
+      ],
     );
   }
 
