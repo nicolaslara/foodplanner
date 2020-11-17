@@ -72,31 +72,64 @@ class _NavigationState extends State<Navigation> {
             index: routeIndex,
             children: pageList,
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.deepPurple,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white54,
-            type: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.house),
-                label: 'Recipes',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.star),
-                label: 'This Week',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart_sharp),
-                label: 'Shopping List',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.pie_chart),
-                label: 'Stats',
-              ),
-            ],
-            currentIndex: routeIndex,
-            onTap: _onItemTapped,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: Padding(
+              padding: EdgeInsets.only(bottom: 25),
+              child: SizedBox(
+                  height: 65,
+                  width: 65,
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    onPressed: () {  },
+                    child: Container(
+                      height: 65,
+                      width: 65,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 4),
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: const Alignment(0.7, -0.5),
+                          end: const Alignment(0.6, 0.5),
+                          colors: [
+                            Colors.orange,
+                            Colors.deepOrange,
+                          ],
+                        ),
+                      ),
+                      child: Icon(Icons.add, size: 30),
+                    ),
+                  )
+              )
+          ),
+          bottomNavigationBar: SizedBox(
+            height: 65,
+            child: BottomNavigationBar(
+              backgroundColor: Colors.deepPurple,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white54,
+              type: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.house),
+                  label: 'Recipes',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.star),
+                  label: 'This Week',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart_sharp),
+                  label: 'Shopping List',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.pie_chart),
+                  label: 'Stats',
+                ),
+              ],
+              currentIndex: routeIndex,
+              onTap: _onItemTapped,
+            ),
           )),
     );
   }

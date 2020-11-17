@@ -16,25 +16,30 @@ class FoodPlanner extends StatelessWidget {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
+          print('ERROR');
           return Text('Error');
         }
+        var app;
         if (snapshot.connectionState == ConnectionState.done) {
+          app = Navigation();
+        }else {
+          app =  Scaffold(
+              backgroundColor: Colors.deepPurple,
+              body: Center(
+                  child: Text("Initializing Firebase!",
+                    style: TextStyle(color: Colors.white),
+                  )
+              )
+          );
+        }
+
           return MaterialApp(
               theme: ThemeData(
                 primarySwatch: Colors.deepPurple,
               ),
-              home: Navigation()
+              home: app
           );
         }
-
-        // Loading screen
-        return MaterialApp(
-          home: Scaffold(
-            backgroundColor: Colors.deepPurple,
-            body: Center(child: Text("Initializing Firebase!", style: TextStyle(color: Colors.white),))
-          ),
-        );
-      },
     );
   }
 }
