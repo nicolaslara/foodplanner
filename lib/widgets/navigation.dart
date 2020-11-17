@@ -48,18 +48,38 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
-  int routeIndex = 0;
+  int _routeIndex = 0;
 
-  static final pageList = [
-    RecipeList(title: 'Recipes'),
-    RecipeList(title: 'Selected', filter: true),
-    ThirdScreen(),
-    FourthScreen()
-  ];
+  PageController _pageController;
+  PageView _pageView;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _routeIndex);
+    _pageView = PageView(
+        controller: _pageController,
+        children: [
+          RecipeList(title: 'Recipes'),
+          RecipeList(title: 'Selected', filter: true),
+          ThirdScreen(),
+          FourthScreen()
+        ]);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
 
   void _onItemTapped(int index) {
     setState(() {
-      routeIndex = index;
+      _routeIndex = index;
+      _pageController.animateToPage(index,
+          duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
     });
   }
 
@@ -68,10 +88,7 @@ class _NavigationState extends State<Navigation> {
     return ChangeNotifierProvider(
       create: (context) => RecipePool(),
       child: Scaffold(
-          body: IndexedStack(
-            index: routeIndex,
-            children: pageList,
-          ),
+          body: _pageView,
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
               padding: EdgeInsets.only(bottom: 25),
@@ -127,7 +144,7 @@ class _NavigationState extends State<Navigation> {
                   label: 'Stats',
                 ),
               ],
-              currentIndex: routeIndex,
+              currentIndex: _routeIndex,
               onTap: _onItemTapped,
             ),
           )),

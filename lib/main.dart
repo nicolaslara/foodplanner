@@ -47,7 +47,6 @@ class FoodPlanner extends StatelessWidget {
 /*
 * ToDo:
 *  - Make responsive
-*  - Add animations to navigation
 *  - Better filters
 *  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
 *  - Add real data to actually make this into a usable application
