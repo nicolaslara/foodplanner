@@ -43,9 +43,6 @@ class FourthScreen extends StatelessWidget {
 
 
 class Navigation extends StatefulWidget {
-  int index;
-  Navigation({Key key, this.index=0}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _NavigationState();
 }
