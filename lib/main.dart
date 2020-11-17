@@ -41,9 +41,10 @@ class FoodPlanner extends StatelessWidget {
 
 /*
 * ToDo:
-*  - Integrate with Firebase
 *  - Make responsive
 *  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
-*
+*  - Add real data to actually make this into a usable application
+*  - Create recipe
+*  - Add tags / collections
 *
 * */
