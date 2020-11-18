@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 
+
+class Tag extends StatelessWidget {
+  final String title;
+
+  Tag(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(padding: const EdgeInsets.all(3), child: Text(title));
+  }
+}
+
 class RecipeCard extends StatelessWidget {
   static const _biggerFont = TextStyle(fontSize: 18.0);
 
@@ -29,10 +41,17 @@ class RecipeCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(recipe.title, style: _biggerFont),
-                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(recipe.title, style: _biggerFont),
+                                ),
+                                Row(
+                                  children: [...recipe.tags.map((t)=>Tag(t)).toList()],
+                                ),
+                              ]),
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [Text('235 kcal'), Text('P: 18g'), Text('C: 15g'), Text('F: 3g')]),

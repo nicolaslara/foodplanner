@@ -17,7 +17,8 @@ class RecipeList extends StatelessWidget {
         RecipeCard(
           recipe: Recipe(
             title: document["title"],
-            saved: document["saved"] ?? false
+            saved: document["saved"] ?? false,
+            tags: document["tags"].cast<String>()
           )
         ),
         Positioned.fill(
