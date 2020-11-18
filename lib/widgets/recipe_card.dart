@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/recipe_pool.dart';
 
 class RecipeCard extends StatelessWidget {
   static const _biggerFont = TextStyle(fontSize: 18.0);
 
-  final String title;
-  final bool saved;
+  final Recipe recipe;
 
-  RecipeCard({this.title, this.saved=false});
+  RecipeCard({this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class RecipeCard extends StatelessWidget {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text(title, style: _biggerFont),
+                              child: Text(recipe.title, style: _biggerFont),
                             ),
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -41,8 +41,8 @@ class RecipeCard extends StatelessWidget {
                       ]),
                 ),
                 Icon(
-                    saved ?  Icons.star : Icons.star_border,
-                    color: saved ? Colors.red : null
+                    recipe.saved ?  Icons.star : Icons.star_border,
+                    color: recipe.saved ? Colors.red : null
                 ),
               ],
             ),

@@ -9,4 +9,9 @@ class Filters extends ChangeNotifier {
     _filters[field] = params;
     notifyListeners();
   }
+
+  void clear(){
+    _filters = {};
+    notifyListeners();
+  }
 }

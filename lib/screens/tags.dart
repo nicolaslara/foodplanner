@@ -15,7 +15,11 @@ class Tags extends StatelessWidget {
             NavigationController nav = Provider.of<NavigationController>(context);
             Filters filters = Provider.of<Filters>(context);
             nav.setPage(1);
-            filters.setFilter('tags', {#arrayContains: tag});
+            if (tag == "All"){
+              filters.clear();
+            } else {
+              filters.setFilter('tags', {#arrayContains: tag});
+            }
           },
           child: Container(
             padding: const EdgeInsets.all(8.0),
@@ -40,6 +44,7 @@ class Tags extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
           List tags = snapshot.data.documents.map((i)=>i['tags']).reduce((val, elem)=> val+elem);
+          tags.insert(0, "All");
           return ListView.builder(
               itemCount: tags.length,
               itemBuilder: (context, index) => _buildRow(tags[index], context)
