@@ -14,4 +14,14 @@ class NavigationController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void previousPage(){
+    _pageController.previousPage(
+      duration: Duration(milliseconds: 200),
+      curve: Curves.linear,
+    );
+    _currentPage = _currentPage > 0 ? currentPage - 1: 0;
+    notifyListeners();
+  }
+
+
 }

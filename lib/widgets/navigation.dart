@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/main.dart';
 import 'package:foodplanner/screens/recipe_list.dart';
 import 'package:foodplanner/screens/tags.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
@@ -67,9 +68,22 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     NavigationController navController = Provider.of<NavigationController>(context);
     return Scaffold(
-        body: PageView(
-            controller: navController.pageController,
-            children: _pageList
+        body: WillPopScope(
+          child: PageView(
+              controller: navController.pageController,
+              children: _pageList,
+          ),
+          onWillPop: () {
+            if (navigatorKey.currentState.canPop()) {
+              navigatorKey.currentState.maybePop();
+              return Future<bool>.value(false);
+            }
+            if (navController.currentPage > 0){
+              navController.previousPage();
+              return Future<bool>.value(false);
+            }
+            return Future<bool>.value(true);
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(

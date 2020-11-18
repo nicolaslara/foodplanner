@@ -5,6 +5,8 @@ import 'package:foodplanner/stores/navigation_controls.dart';
 import 'package:foodplanner/widgets/navigation.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
 void main() {
   runApp(FoodPlanner());
 }
@@ -47,6 +49,7 @@ class FoodPlanner extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.deepPurple,
               ),
+              navigatorKey: navigatorKey,
               home: app
           );
       }

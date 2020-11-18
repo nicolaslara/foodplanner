@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/screens/filters.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,13 @@ class FilterBadge extends StatelessWidget {
       children: [
         IconButton(
           icon: Icon(Icons.filter_list),
-          onPressed: () {  },
+          onPressed: () {
+            //navigatorKey.currentState.push(MaterialPageRoute(builder: (context) => FilterManagement()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FilterManagement()),
+            );
+          },
         ),
         filters.all.length != 0 ? new Positioned(
           right: 11,
