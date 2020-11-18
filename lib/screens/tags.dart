@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/constants.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class Tags extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Row(
-              children: [Expanded(child: Center(child: Text(tag)))],
+              children: [Expanded(child: Center(child: Text(tag, style: TextStyle(fontSize: mediumFont))))],
             ),
           ),
         ),
