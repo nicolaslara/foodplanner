@@ -58,8 +58,8 @@ class _NavigationState extends State<Navigation> {
 
   void _onItemTapped(int index) {
     setState(() {
-      NavigationController pool = Provider.of<NavigationController>(context);
-      pool.setPage(index);
+      NavigationController nav = Provider.of<NavigationController>(context);
+      nav.setPage(index);
     });
   }
 

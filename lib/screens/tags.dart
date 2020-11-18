@@ -1,23 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
 import 'package:provider/provider.dart';
 
 
 class Tags extends StatelessWidget {
 
-  Widget _buildRow(tag, context){
+  Widget _buildRow(String tag, context){
     return Center(
       child: Card(
         child: InkWell(
           onTap: () {
-            NavigationController pool = Provider.of<NavigationController>(context);
-            pool.setPage(1);
+            NavigationController nav = Provider.of<NavigationController>(context);
+            Filters filters = Provider.of<Filters>(context);
+            nav.setPage(1);
+            filters.setFilter('tags', {#arrayContains: tag});
           },
           child: Container(
-            width: 300,
-            height: 100,
-            child: Text(tag),
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [Expanded(child: Center(child: Text(tag)))],
+            ),
           ),
         ),
       ),

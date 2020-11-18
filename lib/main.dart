@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
 import 'package:foodplanner/widgets/navigation.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,11 @@ class FoodPlanner extends StatelessWidget {
         }
         var app;
         if (snapshot.connectionState == ConnectionState.done) {
-          app = ChangeNotifierProvider(
-              create: (context) => NavigationController(),
+          app = MultiProvider(
+              providers: [
+                ChangeNotifierProvider(create: (context) => NavigationController()),
+                ChangeNotifierProvider(create: (context) => Filters()),
+              ],
               child: Navigation()
           );
         }else {
@@ -52,10 +56,9 @@ class FoodPlanner extends StatelessWidget {
 /*
 * ToDo:
 *  - Make responsive
-*  - Better filters
+*  - Better filters: Make a filters page, make the active filters state global, dynamically filter on the recipes page.
 *  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
 *  - Add real data to actually make this into a usable application
 *  - Create recipe
-*  - Add tags / collections
 *
 * */

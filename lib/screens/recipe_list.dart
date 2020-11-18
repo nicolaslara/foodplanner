@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
+import 'package:provider/provider.dart';
 
 class RecipeList extends StatelessWidget {
   RecipeList({Key key, this.title, this.selected=false}) : super(key: key);
@@ -36,11 +38,14 @@ class RecipeList extends StatelessWidget {
 
   @override
   Widget build(context) {
-    Query query;
+    Filters filters = Provider.of<Filters>(context);
+    Query query = FirebaseFirestore.instance.collection('recipes');
     if (this.selected){
-      query = FirebaseFirestore.instance.collection('recipes').where('saved', isEqualTo: true);
+      query = query.where('saved', isEqualTo: true);
     } else {
-      query = FirebaseFirestore.instance.collection('recipes');
+      filters.filters.forEach((String key, Map<Symbol, String> value) {
+        query = Function.apply(query.where, [key], value);
+      });
     }
     return Scaffold(
           appBar: AppBar(
