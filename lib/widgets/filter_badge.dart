@@ -8,7 +8,6 @@ class FilterBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Filters filters = Provider.of<Filters>(context);
-
     return Stack(
       children: [
         IconButton(
@@ -17,7 +16,7 @@ class FilterBadge extends StatelessWidget {
             //navigatorKey.currentState.push(MaterialPageRoute(builder: (context) => FilterManagement()));
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FilterManagement()),
+              MaterialPageRoute(builder: (context) => FilterManagement(filters)),
             );
           },
         ),

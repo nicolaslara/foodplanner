@@ -16,11 +16,11 @@ class RecipeList extends StatelessWidget {
     return Stack(
       children: [
         RecipeCard(
-          recipe: Recipe(
-            title: document["title"],
-            saved: document["saved"] ?? false,
-            tags: document["tags"].cast<String>()
-          )
+            recipe: Recipe(
+                title: document["title"],
+                saved: document["saved"] ?? false,
+                tags: document["tags"].cast<String>()
+            )
         ),
         Positioned.fill(
           child: Material(
@@ -37,6 +37,7 @@ class RecipeList extends StatelessWidget {
                   })
           ),
         ),
+
       ],
     );
   }
@@ -52,10 +53,11 @@ class RecipeList extends StatelessWidget {
         query = Function.apply(query.where, [key], value);
       });
     }
+
     return Scaffold(
           appBar: AppBar(
               title: Text(this.title),
-              actions: [ FilterBadge() ]
+              actions: [ !this.selected ? FilterBadge() : Container() ]
           ),
           body: StreamBuilder(
             stream: query.snapshots(),

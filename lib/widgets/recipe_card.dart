@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/constants.dart';
+import 'package:provider/provider.dart';
 
 
 class Tag extends StatelessWidget {
@@ -10,10 +12,19 @@ class Tag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Filters filters = Provider.of<Filters>(context);
     return Padding(
         padding: EdgeInsets.only(right: 3),
-        child: Chip(
-            label: Text(title, style: TextStyle(fontSize: smallFont),)
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+
+            filters.setFilter('tags', {#arrayContains: title});
+          },
+          child: Chip(
+            backgroundColor: filters.value('tags') == title  ? Colors.lightGreenAccent : null,
+            label: Text(title, style: TextStyle(fontSize: smallFont),),
+          ),
         )
     );
   }

@@ -5,6 +5,14 @@ class Filters extends ChangeNotifier {
   Map<String, Map<Symbol, String>> _filters = {};
   Map<String, Map<Symbol, String>> get all => _filters;
 
+  String value(key){
+    var vals = _filters[key];
+    if (vals != null){
+      return vals[#arrayContains];
+    }
+    return null;
+  }
+
   void setFilter(field, [params=const {}]){
     _filters[field] = params;
     notifyListeners();
