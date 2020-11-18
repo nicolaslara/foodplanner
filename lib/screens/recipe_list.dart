@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
+import 'package:foodplanner/widgets/filter_badge.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
 import 'package:provider/provider.dart';
 
@@ -47,14 +48,14 @@ class RecipeList extends StatelessWidget {
     if (this.selected){
       query = query.where('saved', isEqualTo: true);
     } else {
-      filters.filters.forEach((String key, Map<Symbol, String> value) {
+      filters.all.forEach((String key, Map<Symbol, String> value) {
         query = Function.apply(query.where, [key], value);
       });
     }
     return Scaffold(
           appBar: AppBar(
               title: Text(this.title),
-              actions: [ IconButton(icon: Icon(Icons.filter_list), onPressed: () {  },)]
+              actions: [ FilterBadge() ]
           ),
           body: StreamBuilder(
             stream: query.snapshots(),

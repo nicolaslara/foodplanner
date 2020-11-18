@@ -43,12 +43,13 @@ class FoodPlanner extends StatelessWidget {
         }
 
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 primarySwatch: Colors.deepPurple,
               ),
               home: app
           );
-        }
+      }
     );
   }
 }
@@ -60,5 +61,8 @@ class FoodPlanner extends StatelessWidget {
 *  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
 *  - Add real data to actually make this into a usable application
 *  - Create recipe
+*  - Add rating (easy/good) and comments
+*  - Add macro targets / count
+*  - Add machine learning to extract ingredients/macros from recipes
 *
 * */
