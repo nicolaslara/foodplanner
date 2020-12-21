@@ -51,7 +51,7 @@ class RecipeCard extends StatelessWidget {
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(flex: 1, child: FlutterLogo()),
+                      Expanded(flex: 1, child: recipe.images.length > 0 ? Image.network(recipe.images[0]) : FlutterLogo()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

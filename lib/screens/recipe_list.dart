@@ -19,6 +19,8 @@ class RecipeList extends StatelessWidget {
             recipe: Recipe(
                 title: document["title"],
                 saved: document["saved"] ?? false,
+                images: document["images"].cast<String>(),
+                url: document["url"],
                 tags: document["tags"].cast<String>()
             )
         ),

@@ -46,6 +46,7 @@ class Tags extends StatelessWidget {
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
           List tags = snapshot.data.documents.map((i)=>i['tags']).reduce((val, elem)=> val+elem);
           tags.insert(0, "All");
+          tags = tags.toSet().toList();
           return ListView.builder(
               itemCount: tags.length,
               itemBuilder: (context, index) => _buildRow(tags[index], context)
