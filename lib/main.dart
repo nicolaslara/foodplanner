@@ -60,12 +60,14 @@ class FoodPlanner extends StatelessWidget {
 /*
 * ToDo:
 *  - Make responsive
-*  - Better filters: Make a filters page, make the active filters state global, dynamically filter on the recipes page.
-*  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
-*  - Add real data to actually make this into a usable application
+*  - Prefetch images in the model
+*  - Create recipe page
+*  - Add cover image selection
+*  - Select default image
 *  - Create recipe
 *  - Add rating (easy/good) and comments
 *  - Add macro targets / count
 *  - Add machine learning to extract ingredients/macros from recipes
-*
+*  - Currently using fake navigation. Use real navigation (named routes+back button). Prob with PageController
+*  - Better filters / search
 * */

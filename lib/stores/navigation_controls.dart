@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class NavigationController extends ChangeNotifier {
-  int _currentPage = 0;
+  int _currentPage = 1;
   int get currentPage => _currentPage;
-  PageController _pageController = PageController(initialPage: 0);
+  PageController _pageController = PageController(initialPage: 1);
   PageController get pageController => _pageController;
 
   void setPage(index){

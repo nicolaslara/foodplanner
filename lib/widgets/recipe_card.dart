@@ -43,16 +43,21 @@ class RecipeCard extends StatelessWidget {
       constraints: BoxConstraints.expand(height: 250),
       child: Card(
           elevation: 3,
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Expanded(flex: 1, child: recipe.images.length > 0 ? Image.network(recipe.images[0]) : FlutterLogo()),
-                      Row(
+          child: Stack(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: recipe.images.length > 0 ?
+                        FittedBox(child: Image.network(recipe.images[recipe.images.length-1]), fit: BoxFit.cover) :
+                        FlutterLogo()
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
@@ -60,7 +65,15 @@ class RecipeCard extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Text(recipe.title, style: TextStyle(fontSize: bigFont)),
+                                child: Container(
+                                    width: 300,
+                                    child: Text(
+                                      recipe.title,
+                                      style: TextStyle(fontSize: bigFont),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                ),
                               ),
                               Row(
                                 children: [...recipe.tags.map((t)=>Tag(t)).toList()],
@@ -76,19 +89,19 @@ class RecipeCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ]),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Icon(
-                        recipe.saved ?  Icons.star : Icons.star_border,
-                        color: recipe.saved ? Colors.red : null
                     ),
+                  ]),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                      recipe.saved ?  Icons.star : Icons.star_border,
+                      color: recipe.saved ? Colors.red : null
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           )
       ),
     );
