@@ -13,19 +13,9 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Filters filters = Provider.of<Filters>(context);
-    return Padding(
-        padding: EdgeInsets.only(right: 3),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-
-            filters.setFilter('tags', {#arrayContains: title});
-          },
-          child: Chip(
-            backgroundColor: filters.value('tags') == title  ? Colors.lightGreenAccent : null,
-            label: Text(title, style: TextStyle(fontSize: smallFont),),
-          ),
-        )
+    return Chip(
+      backgroundColor: filters.value('tags') == title  ? Colors.lightGreenAccent : null,
+      label: Text(title, style: TextStyle(fontSize: smallFont),),
     );
   }
 }
@@ -75,8 +65,9 @@ class RecipeCard extends StatelessWidget {
                                     )
                                 ),
                               ),
-                              Row(
-                                children: [...recipe.tags.map((t)=>Tag(t)).toList()],
+                              Wrap(
+                                spacing: 3,
+                                children: [...recipe.tags.map((t)=>Tag(t)).toList()]
                               ),
                             ]),
                           Column(

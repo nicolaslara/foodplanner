@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:foodplanner/constants.dart';
 import 'package:foodplanner/stores/filters.dart';
-import 'package:provider/provider.dart';
 
 
 
