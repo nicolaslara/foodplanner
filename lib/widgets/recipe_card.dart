@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/screens/recipe_details.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/constants.dart';
 import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 
 class Tag extends StatelessWidget {
@@ -82,13 +86,37 @@ class RecipeCard extends StatelessWidget {
                       ),
                     ),
                   ]),
+
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                    child: Container(),
+                    onTap: () {
+                      navigatorKey.currentState.push(
+                        MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
+                      );
+                    }
+                ),
+              ),
+
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                      recipe.saved ?  Icons.star : Icons.star_border,
-                      color: recipe.saved ? Colors.red : null
+                  child: GestureDetector(
+                    child: Icon(
+                        recipe.saved ?  Icons.star : Icons.star_border,
+                        color: recipe.saved ? Colors.red : null
+                    ),
+                    onTap: () {
+                      FirebaseFirestore.instance.runTransaction((transaction) async {
+                        DocumentSnapshot snapshot = await transaction.get(recipe.reference);
+                        transaction.update(recipe.reference, {
+                          'saved': !snapshot['saved']
+                        });
+                      });
+
+                    },
                   ),
                 ),
               ),

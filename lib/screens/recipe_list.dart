@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodplanner/screens/recipe_details.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/widgets/filter_badge.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
 import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class RecipeList extends StatelessWidget {
   RecipeList({Key key, this.title, this.selected=false}) : super(key: key);
@@ -13,35 +16,15 @@ class RecipeList extends StatelessWidget {
   final bool selected;
 
   Widget _buildRow(document) {
-    return Stack(
-      children: [
-        RecipeCard(
-            recipe: Recipe(
-                title: document["title"],
-                saved: document["saved"] ?? false,
-                images: document["images"].cast<String>(),
-                url: document["url"],
-                tags: document["tags"].cast<String>()
-            )
-        ),
-        Positioned.fill(
-          child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                  onTap: () {
-                    if (this.selected) return null;
-                    FirebaseFirestore.instance.runTransaction((transaction) async {
-                      DocumentSnapshot snapshot = await transaction.get(document.reference);
-                      transaction.update(document.reference, {
-                        'saved': !snapshot['saved']
-                      });
-                    });
-                  })
-          ),
-        ),
-
-      ],
+    Recipe _recipe = Recipe(
+        reference: document.reference,
+        title: document["title"],
+        saved: document["saved"] ?? false,
+        images: document["images"].cast<String>(),
+        url: document["url"],
+        tags: document["tags"].cast<String>()
     );
+    return RecipeCard(recipe: _recipe);
   }
 
   @override
