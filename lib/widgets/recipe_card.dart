@@ -30,100 +30,126 @@ class RecipeCard extends StatelessWidget {
 
   RecipeCard({this.recipe});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(3),
-      constraints: BoxConstraints.expand(height: 250),
-      child: Card(
-          elevation: 3,
-          child: Stack(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: recipe.images.length > 0 ?
-                        FittedBox(child: Image.network(recipe.images[recipe.images.length-1]), fit: BoxFit.cover) :
-                        FlutterLogo()
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Container(
-                                    width: 300,
-                                    child: Text(
-                                      recipe.title,
-                                      style: TextStyle(fontSize: bigFont),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    )
-                                ),
-                              ),
-                              Wrap(
-                                spacing: 3,
-                                children: [...recipe.tags.map((t)=>Tag(t)).toList()]
-                              ),
-                            ]),
-                          Column(
-                              children: [
-                                Text('235 kcal', style: TextStyle(fontSize: smallFont),),
-                                Text('P: 18g', style: TextStyle(fontSize: smallFont)),
-                                Text('C: 15g', style: TextStyle(fontSize: smallFont)),
-                                Text('F: 3g', style: TextStyle(fontSize: smallFont))
-                              ]
-                          ),
-                        ],
-                      ),
-                    ),
-                  ]),
 
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                    child: Container(),
-                    onTap: () {
-                      navigatorKey.currentState.push(
-                        MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
-                      );
-                    }
-                ),
-              ),
+  // ToDo: Can we change the helper methods to consts?
 
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    child: Icon(
-                        recipe.saved ?  Icons.star : Icons.star_border,
-                        color: recipe.saved ? Colors.red : null
-                    ),
-                    onTap: () {
-                      FirebaseFirestore.instance.runTransaction((transaction) async {
-                        DocumentSnapshot snapshot = await transaction.get(recipe.reference);
-                        transaction.update(recipe.reference, {
-                          'saved': !snapshot['saved']
-                        });
-                      });
+  Widget get image{
+    if (recipe.images.length > 0) {
+      return FittedBox(
+          fit: BoxFit.cover,
+          child: Image.network(recipe.images[recipe.images.length - 1])
+      );
+    } else {
+      return FlutterLogo();
+    }
+  }
 
-                    },
-                  ),
-                ),
-              ),
-            ],
-          )
-      ),
+  Widget get title {
+    return Text(
+      recipe.title,
+      style: TextStyle(fontSize: bigFont),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
+  Widget get nutritional_info {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('235 kcal', style: TextStyle(fontSize: smallFont),),
+          Text('P: 18g', style: TextStyle(fontSize: smallFont)),
+          Text('C: 15g', style: TextStyle(fontSize: smallFont)),
+          Text('F: 3g', style: TextStyle(fontSize: smallFont))
+        ]
+    );
+  }
+
+  Widget get tags {
+    return SizedBox(
+      height: 30,
+      child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: [...recipe.tags.map((t)=>Tag(t)).toList()]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: 250),
+      child: Card(
+        elevation: 3,
+
+        child: Stack(
+          children: [
+
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(child: image),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                    child: SizedBox(
+                      height: 100,
+                      child: Row(
+                          children: [
+                            Expanded(child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                title,
+                                tags
+                              ],
+                            )),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: nutritional_info,
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                  child: Container(),
+                  onTap: () {
+                    navigatorKey.currentState.push(
+                      MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
+                    );
+                  }
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  child: Icon(
+                      recipe.saved ?  Icons.star : Icons.star_border,
+                      color: recipe.saved ? Colors.red : null
+                  ),
+                  onTap: () {
+                    FirebaseFirestore.instance.runTransaction((transaction) async {
+                      DocumentSnapshot snapshot = await transaction.get(recipe.reference);
+                      transaction.update(recipe.reference, {
+                        'saved': !snapshot['saved']
+                      });
+                    });
+                  },
+                ),
+              ),
+            ),
+
+          ])
+
+      ),
+    );
+  }
+  
 }
