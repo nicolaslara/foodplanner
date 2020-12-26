@@ -70,8 +70,11 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
         body: WillPopScope(
           child: PageView(
-              controller: navController.pageController,
-              children: _pageList,
+            controller: navController.pageController,
+            children: _pageList,
+            onPageChanged: (index) {
+              navController.setPage(index);
+            },
           ),
           onWillPop: () {
             if (navigatorKey.currentState.canPop()) {

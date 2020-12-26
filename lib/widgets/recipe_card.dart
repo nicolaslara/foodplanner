@@ -30,9 +30,6 @@ class RecipeCard extends StatelessWidget {
 
   RecipeCard({this.recipe});
 
-
-  // ToDo: Can we change the helper methods to consts?
-
   Widget get image{
     if (recipe.images.length > 0) {
       return FittedBox(
@@ -78,78 +75,73 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: 250),
-      child: Card(
-        elevation: 3,
+      child: GestureDetector(
+        onTap: () {
+          navigatorKey.currentState.push(
+            MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
+          );
+        },
+        child: Card(
+          elevation: 3,
 
-        child: Stack(
-          children: [
+          child: Stack(
+            children: [
 
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(child: image),
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                    child: SizedBox(
-                      height: 100,
-                      child: Row(
-                          children: [
-                            Expanded(child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                title,
-                                tags
-                              ],
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: nutritional_info,
-                            ),
-                          ]
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: image),
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      child: SizedBox(
+                        height: 100,
+                        child: Row(
+                            children: [
+                              Expanded(child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  title,
+                                  tags
+                                ],
+                              )),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: nutritional_info,
+                              ),
+                            ]
+                        ),
                       ),
                     ),
-                  ),
-                ]
-            ),
-
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                  child: Container(),
-                  onTap: () {
-                    navigatorKey.currentState.push(
-                      MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
-                    );
-                  }
+                  ]
               ),
-            ),
 
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  child: Icon(
-                      recipe.saved ?  Icons.star : Icons.star_border,
-                      color: recipe.saved ? Colors.red : null
-                  ),
-                  onTap: () {
-                    FirebaseFirestore.instance.runTransaction((transaction) async {
-                      DocumentSnapshot snapshot = await transaction.get(recipe.reference);
-                      transaction.update(recipe.reference, {
-                        'saved': !snapshot['saved']
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Icon(
+                        recipe.saved ?  Icons.star : Icons.star_border,
+                        color: recipe.saved ? Colors.red : null
+                    ),
+                    onTap: () {
+                      FirebaseFirestore.instance.runTransaction((transaction) async {
+                        DocumentSnapshot snapshot = await transaction.get(recipe.reference);
+                        transaction.update(recipe.reference, {
+                          'saved': !snapshot['saved']
+                        });
                       });
-                    });
-                  },
+                    },
+                  ),
                 ),
               ),
-            ),
 
-          ])
+            ])
 
+        ),
       ),
     );
   }
-  
+
 }
