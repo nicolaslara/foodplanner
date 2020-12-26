@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodplanner/screens/recipe_details.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/widgets/filter_badge.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
 
 class RecipeList extends StatelessWidget {
   RecipeList({Key key, this.title, this.selected=false}) : super(key: key);
