@@ -53,7 +53,7 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  Widget get nutritional_info {
+  Widget get nutritionalInfo {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -111,7 +111,7 @@ class RecipeCard extends StatelessWidget {
                               )),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: nutritional_info,
+                                child: nutritionalInfo,
                               ),
                             ]
                         ),

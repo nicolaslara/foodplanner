@@ -12,6 +12,54 @@ class RecipeDetails extends StatelessWidget {
 
   RecipeDetails(this.recipe);
 
+  Widget fullScreenImage(image){
+    return Scaffold(
+      //appBar: AppBar(),
+      backgroundColor: Colors.black,
+      body: InteractiveViewer(
+        boundaryMargin: EdgeInsets.all(8),
+        minScale: 0.1,
+        maxScale: 4,
+        child: Image.network(
+          image,
+          height: double.infinity,
+          width: double.infinity,
+        ),
+      ),
+    );
+  }
+
+  Widget images(context) {
+    if (recipe.images.length > 0){
+      return SizedBox(
+        height: MediaQuery.of(context).size.width,
+        child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: recipe.images.reversed.map((image) {
+              return SizedBox(width: 410,
+                  child: GestureDetector(
+                      child: FittedBox(child: Image.network(image), fit: BoxFit.cover),
+                      onTap:() {
+                        navigatorKey.currentState.push(
+                          MaterialPageRoute(builder: (context) => fullScreenImage(image)),
+                        );
+                      }
+                  )
+              );
+            }).toList()
+        ),
+      );
+    } else {
+      return SizedBox(
+        height: 300,
+        child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [FlutterLogo()]
+        ),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +67,7 @@ class RecipeDetails extends StatelessWidget {
         appBar: AppBar(title: Text(recipe.title)),
         body: Column(
           children: [
-            SizedBox(
-              height: 300,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: recipe.images.length > 0 ? recipe.images.reversed.map((image) => SizedBox(width: 410, child: FittedBox(child: Image.network(image), fit: BoxFit.cover))).toList() : [FlutterLogo()]
-              ),
-            ),
+            images(context),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
