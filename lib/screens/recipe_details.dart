@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
+import 'package:foodplanner/widgets/recipe_card.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../constants.dart';
@@ -14,7 +15,6 @@ class RecipeDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(recipe.images);
     return Scaffold(
         appBar: AppBar(title: Text(recipe.title)),
         body: Column(
@@ -37,23 +37,30 @@ class RecipeDetails extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+
+                  SizedBox(
+                    height: 30,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [...recipe.tags.map((t)=>Tag(t, null)).toList()]),
+                  ),
+
                   GestureDetector(
                     child: Text(recipe.url),
                     onTap: () => {
                       navigatorKey.currentState.push(
-                        MaterialPageRoute(builder: (context) => Scaffold(
-                            appBar: AppBar(
-                              title: Text(recipe.url),
-                            ),
-                            body: WebView(
-                              initialUrl: recipe.url,
-                              javascriptMode: JavascriptMode.unrestricted,
-                            ))
-                        ))
+                          MaterialPageRoute(builder: (context) => Scaffold(
+                              appBar: AppBar(
+                                title: Text(recipe.url),
+                              ),
+                              body: WebView(
+                                initialUrl: recipe.url,
+                                javascriptMode: JavascriptMode.unrestricted,
+                              ))
+                          ))
                     },
-
                   ),
-                  Text(recipe.tags.toString()),
+
                 ],
               ),
             )

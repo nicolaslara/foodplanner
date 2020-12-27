@@ -11,15 +11,18 @@ import '../main.dart';
 
 class Tag extends StatelessWidget {
   final String title;
+  final Filters filters;
 
-  Tag(this.title);
+  Tag(this.title, this.filters);
 
   @override
   Widget build(BuildContext context) {
-    Filters filters = Provider.of<Filters>(context);
-    return Chip(
-      backgroundColor: filters.value('tags') == title  ? Colors.lightGreenAccent : null,
-      label: Text(title, style: TextStyle(fontSize: smallFont),),
+    return Padding(
+      padding: const EdgeInsets.only(right: 2.0),
+      child: Chip(
+        backgroundColor: filters != null && filters.value('tags') == title  ? Colors.lightGreenAccent : null,
+        label: Text(title, style: TextStyle(fontSize: smallFont),),
+      ),
     );
   }
 }
@@ -62,12 +65,13 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  Widget get tags {
+  Widget tags(context) {
+    Filters filters = Provider.of<Filters>(context);
     return SizedBox(
       height: 30,
       child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [...recipe.tags.map((t)=>Tag(t)).toList()]),
+          children: [...recipe.tags.map((t)=>Tag(t, filters)).toList()]),
     );
   }
 
@@ -102,7 +106,7 @@ class RecipeCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   title,
-                                  tags
+                                  tags(context)
                                 ],
                               )),
                               Padding(
