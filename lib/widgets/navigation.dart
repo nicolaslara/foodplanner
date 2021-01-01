@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:foodplanner/main.dart';
+import 'package:foodplanner/screens/add_recipe.dart';
 import 'package:foodplanner/screens/recipe_list.dart';
 import 'package:foodplanner/screens/tags.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 
@@ -57,12 +61,22 @@ class _NavigationState extends State<Navigation> {
     ),
   ];
 
-  void _onItemTapped(int index) {
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
     setState(() {
-      NavigationController nav = Provider.of<NavigationController>(context);
-      nav.setPage(index);
+      if (pickedFile != null) {
+        navigatorKey.currentState.push(
+          MaterialPageRoute(builder: (context) => AddRecipe(File(pickedFile.path))),
+        );
+      } else {
+        print('No image selected.');
+      }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +111,7 @@ class _NavigationState extends State<Navigation> {
                 child: FloatingActionButton(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  onPressed: () {  },
+                  onPressed: getImage,
                   child: Container(
                     height: 65,
                     width: 65,
@@ -127,7 +141,10 @@ class _NavigationState extends State<Navigation> {
             type: BottomNavigationBarType.fixed,
             items: _pageButtons,
             currentIndex: navController.currentPage,
-            onTap: _onItemTapped,
+            onTap: (int index){
+              NavigationController nav = Provider.of<NavigationController>(context);
+              nav.setPage(index);
+            },
           ),
         ));
   }
