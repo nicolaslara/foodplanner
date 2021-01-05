@@ -13,6 +13,7 @@ const double imageSize = 150;
 
 class EditRecipeState  extends State<EditRecipe> {
   final _formKey = GlobalKey<FormState>();
+  final _imagesKey = GlobalKey<ImagesState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +37,14 @@ class EditRecipeState  extends State<EditRecipe> {
                     hintText: 'URL'
                 ),
               ),
-              Images(),
+              Images(key: _imagesKey),
               ElevatedButton(
                 onPressed: () {
                   final scaffold = Scaffold.of(context);
                   if (_formKey.currentState.validate()) {
                     scaffold.showSnackBar(SnackBar(content: Text('Processing Data')));
                     print(_formKey.currentState);
+                    print(_imagesKey.currentState.images);
                   } else {
                     scaffold.showSnackBar(SnackBar(content: Text('Error')));
                   }
