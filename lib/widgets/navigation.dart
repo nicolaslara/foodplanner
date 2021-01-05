@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/main.dart';
 import 'package:foodplanner/screens/add_recipe.dart';
+import 'package:foodplanner/screens/editor/edit_recipe.dart';
 import 'package:foodplanner/screens/recipe_list.dart';
 import 'package:foodplanner/screens/tags.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
@@ -39,7 +40,7 @@ class _NavigationState extends State<Navigation> {
     Tags(),
     RecipeList(title: 'Recipes'),
     RecipeList(title: 'Selected', selected: true),
-    FourthScreen()
+    EditRecipe()
   ];
 
   static final List<BottomNavigationBarItem> _pageButtons = [
