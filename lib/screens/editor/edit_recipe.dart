@@ -6,6 +6,7 @@ import 'package:foodplanner/screens/editor/tags.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:slugify/slugify.dart';
 
+import '../../main.dart';
 import 'images.dart';
 
 class EditRecipe extends StatefulWidget {
@@ -21,11 +22,13 @@ class EditRecipeState  extends State<EditRecipe> {
   final _formKey = GlobalKey<FormState>();
   final _imagesKey = GlobalKey<ImagesState>();
   final _tagsKey = GlobalKey<TagEditorState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   Recipe recipe = Recipe();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Edit Recipe'),
       ),
@@ -62,7 +65,7 @@ class EditRecipeState  extends State<EditRecipe> {
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: () async {
-                        final scaffold = Scaffold.of(context);
+                        final scaffold = _scaffoldKey.currentState;
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
 
@@ -105,8 +108,8 @@ class EditRecipeState  extends State<EditRecipe> {
                             await doc.set(data);
                           }
 
-
                           scaffold.showSnackBar(SnackBar(content: Text('Saved!')));
+                          navigatorKey.currentState.pop();
                         } else {
                           scaffold.showSnackBar(SnackBar(content: Text('Error')));
                         }

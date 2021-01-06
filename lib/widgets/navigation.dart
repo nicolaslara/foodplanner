@@ -40,7 +40,7 @@ class _NavigationState extends State<Navigation> {
     Tags(),
     RecipeList(title: 'Recipes'),
     RecipeList(title: 'Selected', selected: true),
-    EditRecipe()
+    FourthScreen()
   ];
 
   static final List<BottomNavigationBarItem> _pageButtons = [
@@ -112,7 +112,12 @@ class _NavigationState extends State<Navigation> {
                 child: FloatingActionButton(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  onPressed: getImage,
+                  onPressed: () {
+                    navigatorKey.currentState.push(
+                      MaterialPageRoute(builder: (context) => EditRecipe()),
+                    );
+
+                  },
                   child: Container(
                     height: 65,
                     width: 65,
