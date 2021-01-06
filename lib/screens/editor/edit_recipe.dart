@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodplanner/screens/editor/tags.dart';
 
 import 'images.dart';
 
@@ -21,37 +22,46 @@ class EditRecipeState  extends State<EditRecipe> {
       appBar: AppBar(
         title: Text('Edit Recipe'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Title'
-                ),
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'URL'
-                ),
-              ),
-              Images(key: _imagesKey),
-              ElevatedButton(
-                onPressed: () {
-                  final scaffold = Scaffold.of(context);
-                  if (_formKey.currentState.validate()) {
-                    scaffold.showSnackBar(SnackBar(content: Text('Processing Data')));
-                    print(_formKey.currentState);
-                    print(_imagesKey.currentState.images);
-                  } else {
-                    scaffold.showSnackBar(SnackBar(content: Text('Error')));
-                  }
-                },
-                child: Text('Submit'),
-              )
-            ]
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+                children: [
+                  Images(key: _imagesKey),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Title'
+                    ),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Source'
+                    ),
+                  ),
+                  TagEditor(),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final scaffold = Scaffold.of(context);
+                        if (_formKey.currentState.validate()) {
+                          scaffold.showSnackBar(SnackBar(content: Text('Processing Data')));
+                          print(_formKey.currentState);
+                          print(_imagesKey.currentState.images);
+                        } else {
+                          scaffold.showSnackBar(SnackBar(content: Text('Error')));
+                        }
+                      },
+                      child: Text('Submit'),
+                    ),
+                  )
+                ]
+            ),
+          ),
         ),
       ),
     );

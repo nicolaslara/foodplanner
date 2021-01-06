@@ -15,7 +15,7 @@ class Images extends StatefulWidget {
 
 class ImagesState  extends State<Images> {
 
-  static const double imageSize = 150;
+  static const double imageSize = 350;
 
   final picker = ImagePicker();
   List<File> images = [];
