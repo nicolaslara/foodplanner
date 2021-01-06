@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/editor/tags.dart';
@@ -64,18 +66,44 @@ class EditRecipeState  extends State<EditRecipe> {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
 
+                          recipe.slug = Slugify(recipe.title);
                           recipe.tags = _tagsKey.currentState.tags;
 
+                          List<String> images = [];
+
+                          try {
+                            print(_imagesKey.currentState.images);
+                            FirebaseStorage bucket = FirebaseStorage.instanceFor(bucket: 'foodplanner-d4a4c');
+                            for (var i=0; i < _imagesKey.currentState.images.length; i++){
+                              Reference ref = bucket.ref('${recipe.slug}-${i}');
+                              await ref.putFile(_imagesKey.currentState.images[i]);
+                              images.add(await ref.getDownloadURL());
+                            }
+                          } on FirebaseException catch (e) {
+                            // e.g, e.code == 'canceled'
+                            print('ERROR');
+                            print(e);
+                            scaffold.showSnackBar(SnackBar(content: Text("Can't upload images")));
+                            return;
+                          }
+
+                          Map<String, dynamic> data = {
+                            'title': recipe.title,
+                            'url': recipe.url,
+                            'tags': recipe.tags,
+                            'saved': false,
+                            'new': true,
+                            'images': images,
+                          };
+
                           final recipes = FirebaseFirestore.instance.collection('recipes');
-                           await recipes
-                               .doc(Slugify(recipe.title))
-                               .update({
-                             'title': recipe.title,
-                             'url': recipe.url,
-                             'tags': recipe.tags,
-                             'saved': false,
-                             'new': true,
-                           });
+                          DocumentReference doc = recipes.doc(recipe.slug);
+                          DocumentSnapshot snapshot = await doc.get();
+                          if (snapshot.exists){
+                            await doc.update(data);
+                          } else {
+                            await doc.set(data);
+                          }
 
 
                           scaffold.showSnackBar(SnackBar(content: Text('Saved!')));

@@ -15,7 +15,7 @@ class RecipeList extends StatelessWidget {
 
   Widget _buildRow(document) {
     Recipe _recipe = Recipe(
-        reference: document.reference,
+        slug: document.reference.id,
         title: document["title"],
         saved: document["saved"] ?? false,
         images: document["images"].cast<String>(),

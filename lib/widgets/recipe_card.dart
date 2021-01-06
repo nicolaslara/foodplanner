@@ -131,8 +131,9 @@ class RecipeCard extends StatelessWidget {
                     ),
                     onTap: () {
                       FirebaseFirestore.instance.runTransaction((transaction) async {
-                        DocumentSnapshot snapshot = await transaction.get(recipe.reference);
-                        transaction.update(recipe.reference, {
+                        DocumentReference ref = FirebaseFirestore.instance.collection('recipes').doc(recipe.slug);
+                        DocumentSnapshot snapshot = await transaction.get(ref);
+                        transaction.update(ref, {
                           'saved': !snapshot['saved']
                         });
                       });
