@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../constants.dart';
 import '../main.dart';
+import 'editor/edit_recipe.dart';
 
 class RecipeDetails extends StatelessWidget {
   final Recipe recipe;
@@ -64,7 +65,20 @@ class RecipeDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(recipe.title)),
+        appBar: AppBar(
+          title: Text(recipe.title),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                navigatorKey.currentState.push(
+                  MaterialPageRoute(builder: (context) => EditRecipe(recipe)),
+                );
+              },
+            )
+          ],
+
+        ),
         body: Column(
           children: [
             images(context),

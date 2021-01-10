@@ -114,9 +114,8 @@ class _NavigationState extends State<Navigation> {
                   elevation: 0,
                   onPressed: () {
                     navigatorKey.currentState.push(
-                      MaterialPageRoute(builder: (context) => EditRecipe()),
+                      MaterialPageRoute(builder: (context) => EditRecipe.empty()),
                     );
-
                   },
                   child: Container(
                     height: 65,

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Images extends StatefulWidget {
-  const Images({Key key}) : super(key: key);
+  final List<String> images;
+  const Images({Key key, this.images}) : super(key: key);
 
   @override
   ImagesState createState() => ImagesState();
@@ -17,10 +18,16 @@ class ImagesState  extends State<Images> {
   static const double imageSize = 250;
 
   final picker = ImagePicker();
+  List<String> existingImages;
   List<File> images = [];
 
+  @override
+  void initState() {
+    super.initState();
+    existingImages = List.from(widget.images);
+  }
 
-  Future getImage() async {
+    Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       if (pickedFile != null) {
@@ -50,20 +57,62 @@ class ImagesState  extends State<Images> {
       );
   }
 
-  List<Padding> get imageWidgets{
-    if (images.length == 0){
-      return [];
-    } else {
-      return images.map((image)=> Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: SizedBox(
+  Stack imageWithDelete({Widget image, Function onDelete}){
+    return Stack(
+      children: [
+        SizedBox(
             width: imageSize,
             height: imageSize,
             child: FittedBox(
-                child: Image.file(image),
+                child: image,
                 fit: BoxFit.cover
             )
         ),
+        SizedBox(
+            width: imageSize,
+            height: imageSize,
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blueGrey),
+                child: IconButton(
+                  color: Colors.white,
+                  icon: Icon(Icons.delete_forever_sharp),
+                  onPressed: onDelete),
+              ),
+            )
+        )
+    ]
+    );
+  }
+
+  List<Padding> get imageWidgets{
+    if (existingImages.length == 0){
+      return [];
+    } else {
+      return existingImages.map((image)=> Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: imageWithDelete(
+          image: Image.network(image),
+          onDelete: () {
+            setState(() {
+              existingImages.remove(image);
+            });
+          }
+        )
+      )).toList() + images.map((image)=> Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: imageWithDelete(
+            image: Image.file(image),
+            onDelete: () {
+              setState(() {
+                images.remove(image);
+              });
+            }
+
+        )
       )).toList();
 
     }

@@ -10,7 +10,11 @@ import '../../main.dart';
 import 'images.dart';
 
 class EditRecipe extends StatefulWidget {
-  const EditRecipe();
+  final Recipe recipe;
+
+  const EditRecipe(this.recipe);
+  const EditRecipe.empty()
+      : recipe = null;
 
   @override
   EditRecipeState createState() => EditRecipeState();
@@ -23,8 +27,17 @@ class EditRecipeState  extends State<EditRecipe> {
   final _imagesKey = GlobalKey<ImagesState>();
   final _tagsKey = GlobalKey<TagEditorState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  Recipe recipe = Recipe();
+  Recipe recipe;
 
+  @override
+  void initState(){
+    super.initState();
+    if (widget.recipe == null){
+      recipe = Recipe();
+    } else {
+      recipe = widget.recipe;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +52,7 @@ class EditRecipeState  extends State<EditRecipe> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
                 children: [
-                  Images(key: _imagesKey),
+                  Images(key: _imagesKey, images: recipe.images),
                   TextFormField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
@@ -78,7 +91,7 @@ class EditRecipeState  extends State<EditRecipe> {
                             print(_imagesKey.currentState.images);
                             FirebaseStorage bucket = FirebaseStorage.instanceFor(bucket: 'foodplanner-d4a4c');
                             for (var i=0; i < _imagesKey.currentState.images.length; i++){
-                              Reference ref = bucket.ref('${recipe.slug}-${i}');
+                              Reference ref = bucket.ref('${recipe.slug}-$i');
                               await ref.putFile(_imagesKey.currentState.images[i]);
                               images.add(await ref.getDownloadURL());
                             }
