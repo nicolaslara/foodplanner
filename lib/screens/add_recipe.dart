@@ -30,7 +30,7 @@ class AddRecipeState  extends State<AddRecipe>  {
       height: 30,
       child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [...added.map((t)=>Tag(t, null)).toList()]),
+          children: [...added.map((t)=>Tag(title: t)).toList()]),
     );
   }
 

@@ -4,7 +4,8 @@ import 'package:foodplanner/widgets/recipe_card.dart';
 
 
 class TagEditor extends StatefulWidget {
-  const TagEditor({Key key}) : super(key: key);
+  final List<String> tags;
+  const TagEditor({Key key, this.tags}) : super(key: key);
 
   @override
   TagEditorState createState() => TagEditorState();
@@ -17,7 +18,12 @@ class TagEditorState  extends State<TagEditor> {
   GlobalKey<AutoCompleteTextFieldState<String>> _autocompleteKey = new GlobalKey();
   SimpleAutoCompleteTextField tagAutocompleteField;
 
-  TagEditorState() : super() {
+  @override
+  void initState(){
+    super.initState();
+    if (widget.tags != null){
+      tags = List.from(widget.tags);
+    }
     tagAutocompleteField = SimpleAutoCompleteTextField(
       key: _autocompleteKey,
       controller: TextEditingController(),
@@ -33,12 +39,21 @@ class TagEditorState  extends State<TagEditor> {
     );
   }
 
+
   Widget get tagDisplay {
     return SizedBox(
       height: 30,
       child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [...tags.map((t)=>Tag(t, null)).toList()]),
+          children: [
+            ...tags.map((t)=>Tag(
+              title: t,
+              onDelete: (){
+                setState(() {
+                  tags.remove(t);
+                });
+              })).toList()
+          ]),
     );
   }
 
@@ -57,7 +72,6 @@ class TagEditorState  extends State<TagEditor> {
               onPressed: () {
                 print(tagAutocompleteField);
                 tagAutocompleteField.triggerSubmitted();
-                print(tags);
               }),
         ),
         tagDisplay,

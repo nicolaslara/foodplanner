@@ -79,7 +79,7 @@ class ImagesState  extends State<Images> {
                   color: Colors.blueGrey),
                 child: IconButton(
                   color: Colors.white,
-                  icon: Icon(Icons.delete_forever_sharp),
+                  icon: Icon(Icons.close),
                   onPressed: onDelete),
               ),
             )

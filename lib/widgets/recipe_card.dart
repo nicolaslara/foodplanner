@@ -12,8 +12,9 @@ import '../main.dart';
 class Tag extends StatelessWidget {
   final String title;
   final Filters filters;
+  final Function onDelete;
 
-  Tag(this.title, this.filters);
+  Tag({this.title, this.filters, this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,9 @@ class Tag extends StatelessWidget {
       padding: const EdgeInsets.only(right: 2.0),
       child: Chip(
         backgroundColor: filters != null && filters.value('tags') == title  ? Colors.lightGreenAccent : null,
-        label: Text(title, style: TextStyle(fontSize: smallFont),),
+        deleteIcon: Icon( Icons.close, ),
+        onDeleted: onDelete,
+        label: Text(title, style: TextStyle(fontSize: smallFont)),
       ),
     );
   }
@@ -71,7 +74,7 @@ class RecipeCard extends StatelessWidget {
       height: 30,
       child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [...recipe.tags.map((t)=>Tag(t, filters)).toList()]),
+          children: [...recipe.tags.map((t)=>Tag(title: t, filters: filters)).toList()]),
     );
   }
 

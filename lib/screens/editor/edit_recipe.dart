@@ -38,6 +38,7 @@ class EditRecipeState  extends State<EditRecipe> {
       recipe = widget.recipe;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +56,11 @@ class EditRecipeState  extends State<EditRecipe> {
                   Images(key: _imagesKey, images: recipe.images),
                   TextFormField(
                     decoration: InputDecoration(
+                        labelText: 'Title *',
                         border: InputBorder.none,
-                        hintText: 'Title'
+                        hintText: 'Delicious food with extra toppings'
                     ),
+                    initialValue: recipe.title,
                     onSaved: (val) => recipe.title = val,
                     validator: (value) {
                       if (value.isEmpty) {
@@ -68,12 +71,14 @@ class EditRecipeState  extends State<EditRecipe> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
+                        labelText: 'Source',
                         border: InputBorder.none,
-                        hintText: 'Source'
+                        hintText: 'http://www.superrecipes.com/delicious/'
                     ),
+                    initialValue: recipe.url,
                     onSaved: (val) => recipe.url = val,
                   ),
-                  TagEditor(key: _tagsKey),
+                  TagEditor(key: _tagsKey, tags: recipe.tags),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
@@ -85,7 +90,7 @@ class EditRecipeState  extends State<EditRecipe> {
                           recipe.slug = Slugify(recipe.title);
                           recipe.tags = _tagsKey.currentState.tags;
 
-                          List<String> images = [];
+                          List<String> images = _imagesKey.currentState.existingImages;
 
                           try {
                             print(_imagesKey.currentState.images);

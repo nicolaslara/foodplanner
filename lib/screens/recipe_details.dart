@@ -98,7 +98,7 @@ class RecipeDetails extends StatelessWidget {
                     height: 30,
                     child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: [...recipe.tags.map((t)=>Tag(t, null)).toList()]),
+                        children: [...recipe.tags.map((t)=>Tag(title: t)).toList()]),
                   ),
 
                   GestureDetector(
