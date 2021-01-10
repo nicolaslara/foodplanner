@@ -130,7 +130,9 @@ class EditRecipeState  extends State<EditRecipe> {
 
                           scaffold.showSnackBar(SnackBar(content: Text('Saved!')));
                           navigatorKey.currentState.pop();
-                          navigatorKey.currentState.pop();  // Temporarily pop twice while the states are not using shared states
+                          if (navigatorKey.currentState.canPop()){
+                            navigatorKey.currentState.pop();  // Temporarily pop twice while the states are not using shared states
+                          }
                         } else {
                           scaffold.showSnackBar(SnackBar(content: Text('Error')));
                         }

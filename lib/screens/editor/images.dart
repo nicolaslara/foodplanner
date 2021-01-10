@@ -24,7 +24,7 @@ class ImagesState  extends State<Images> {
   @override
   void initState() {
     super.initState();
-    existingImages = List.from(widget.images);
+    existingImages = widget.images != null ? List.from(widget.images) : [];
   }
 
     Future getImage() async {
