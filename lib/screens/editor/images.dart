@@ -89,7 +89,7 @@ class ImagesState  extends State<Images> {
   }
 
   List<Padding> get imageWidgets{
-    if (existingImages.length == 0){
+    if (existingImages.length + images.length == 0){
       return [];
     } else {
       return existingImages.map((image)=> Padding(

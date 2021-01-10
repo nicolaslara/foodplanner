@@ -87,7 +87,9 @@ class EditRecipeState  extends State<EditRecipe> {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
 
-                          recipe.slug = Slugify(recipe.title);
+                          if (recipe.slug == null){
+                            recipe.slug = Slugify(recipe.title);
+                          }
                           recipe.tags = _tagsKey.currentState.tags;
 
                           List<String> images = _imagesKey.currentState.existingImages;
@@ -128,6 +130,7 @@ class EditRecipeState  extends State<EditRecipe> {
 
                           scaffold.showSnackBar(SnackBar(content: Text('Saved!')));
                           navigatorKey.currentState.pop();
+                          navigatorKey.currentState.pop();  // Temporarily pop twice while the states are not using shared states
                         } else {
                           scaffold.showSnackBar(SnackBar(content: Text('Error')));
                         }
