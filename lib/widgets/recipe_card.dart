@@ -103,23 +103,20 @@ class RecipeCard extends StatelessWidget {
                       height: 100,
                       child: Column(
                           children: [
-                            title,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: title,
+                            ),
                             Expanded(
                               child: Row(
                                 children: [
                                   Expanded(child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 8.0),
-                                        child: tags(context),
-                                      ),
+                                      tags(context),
                                     ])
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: nutritionalInfo,
-                                  ),
+                                  nutritionalInfo,
                                 ]
                               ),
                             ),
