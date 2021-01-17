@@ -11,6 +11,21 @@ void main() {
   runApp(FoodPlanner());
 }
 
+MaterialColor swatchify(MaterialColor color, int value) {
+  return MaterialColor(color[value].hashCode, <int, Color>{
+    50: color[value],
+    100: color[value],
+    200: color[value],
+    300: color[value],
+    400: color[value],
+    500: color[value],
+    600: color[value],
+    700: color[value],
+    800: color[value],
+    900: color[value],
+  });
+}
+
 class FoodPlanner extends StatelessWidget {
 
   @override
@@ -47,7 +62,9 @@ class FoodPlanner extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                primarySwatch: Colors.deepPurple,
+                primarySwatch: swatchify(Colors.orange, 300),
+                cardColor: Colors.orange[100],
+                canvasColor: Colors.orange[100],
               ),
               navigatorKey: navigatorKey,
               home: app

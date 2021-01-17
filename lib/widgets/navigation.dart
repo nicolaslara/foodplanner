@@ -105,10 +105,10 @@ class _NavigationState extends State<Navigation> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-            padding: EdgeInsets.only(bottom: 25),
+            padding: EdgeInsets.only(bottom: 10),
             child: SizedBox(
-                height: 65,
-                width: 65,
+                height: 55,
+                width: 55,
                 child: FloatingActionButton(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -118,8 +118,8 @@ class _NavigationState extends State<Navigation> {
                     );
                   },
                   child: Container(
-                    height: 65,
-                    width: 65,
+                    height: 55,
+                    width: 55,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.white, width: 4),
                       shape: BoxShape.circle,
@@ -127,12 +127,17 @@ class _NavigationState extends State<Navigation> {
                         begin: const Alignment(0.7, -0.5),
                         end: const Alignment(0.6, 0.5),
                         colors: [
-                          Colors.orange,
-                          Colors.deepOrange,
+                          swatchify(Colors.orange, 300),
+                          swatchify(Colors.orange, 700),
+                          //Colors.pinkAccent,
                         ],
                       ),
                     ),
-                    child: Icon(Icons.add, size: 30),
+                    child: Icon(
+                      Icons.add_outlined,
+                      size: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 )
             )
@@ -140,9 +145,9 @@ class _NavigationState extends State<Navigation> {
         bottomNavigationBar: SizedBox(
           height: 65,
           child: BottomNavigationBar(
-            backgroundColor: Colors.deepPurple,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white54,
+            backgroundColor: swatchify(Colors.orange, 300),
+            selectedItemColor: Colors.pink[500],
+            unselectedItemColor: Colors.white60,
             type: BottomNavigationBarType.fixed,
             items: _pageButtons,
             currentIndex: navController.currentPage,
