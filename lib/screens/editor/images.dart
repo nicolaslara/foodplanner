@@ -1,8 +1,13 @@
 
 import 'dart:io';
+import "dart:math" show pi;
 
+import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+GlobalKey<CircularMenuState> animationKey = GlobalKey<CircularMenuState>();
+
 
 class Images extends StatefulWidget {
   final List<String> images;
@@ -27,8 +32,9 @@ class ImagesState  extends State<Images> {
     existingImages = widget.images != null ? List.from(widget.images) : [];
   }
 
-    Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+  Future getImage({source=ImageSource.camera}) async {
+    final pickedFile = await picker.getImage(source: source);
     setState(() {
       if (pickedFile != null) {
         images.add(File(pickedFile.path));
@@ -38,11 +44,11 @@ class ImagesState  extends State<Images> {
     });
   }
 
+
   Padding get addImageButton{
     return Padding(
         padding: const EdgeInsets.all(4.0),
         child: InkWell(
-          onTap: getImage,
           child: SizedBox(
             width: imageSize,
             height: imageSize,
@@ -50,7 +56,26 @@ class ImagesState  extends State<Images> {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey)
                 ),
-                child: Icon(Icons.add)
+
+                child: CircularMenu(
+                    key: animationKey,
+                    alignment: Alignment.center,
+                    radius: 70,
+                    toggleButtonAnimatedIconData: AnimatedIcons.add_event,
+                    toggleButtonBoxShadow: [],
+                    startingAngleInRadian:  5*pi/16,
+                    endingAngleInRadian: 11*pi/16,
+                    items: [
+                      CircularMenuItem(icon: Icons.add_a_photo_rounded, onTap: () {
+                        getImage();
+                        animationKey.currentState.reverseAnimation();
+                      }),
+                      CircularMenuItem(icon: Icons.add_photo_alternate_rounded, onTap: () {
+                        getImage(source: ImageSource.gallery);
+                        animationKey.currentState.reverseAnimation();
+                      }),
+                    ])
+
             ),
           ),
         ),
