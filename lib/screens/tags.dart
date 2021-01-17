@@ -47,6 +47,7 @@ class Tags extends StatelessWidget {
           List tags = snapshot.data.documents.map((i)=>i['tags']).reduce((val, elem)=> val+elem);
           tags.insert(0, "All");
           tags = tags.toSet().toList();
+          tags.sort();
           return ListView.builder(
               itemCount: tags.length,
               itemBuilder: (context, index) => _buildRow(tags[index], context)
