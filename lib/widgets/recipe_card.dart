@@ -24,6 +24,7 @@ class Tag extends StatelessWidget {
         backgroundColor: filters != null && filters.value('tags') == title  ? Colors.lightGreenAccent : null,
         deleteIcon: Icon( Icons.close, ),
         onDeleted: onDelete,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: Text(title, style: TextStyle(fontSize: smallFont)),
       ),
     );
@@ -50,7 +51,7 @@ class RecipeCard extends StatelessWidget {
   Widget get title {
     return Text(
       recipe.title,
-      style: TextStyle(fontSize: bigFont),
+      style: TextStyle(fontSize: mediumFont),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -80,74 +81,79 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 250),
-      child: GestureDetector(
-        onTap: () {
-          navigatorKey.currentState.push(
-            MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
-          );
-        },
-        child: Card(
-          elevation: 3,
+    return GestureDetector(
+      onTap: () {
+        navigatorKey.currentState.push(
+          MaterialPageRoute(builder: (context) => RecipeDetails(recipe)),
+        );
+      },
+      child: Card(
+        elevation: 3,
 
-          child: Stack(
-            children: [
+        child: Stack(
+          children: [
 
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: image),
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                      child: SizedBox(
-                        height: 100,
-                        child: Row(
-                            children: [
-                              Expanded(child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(child: image),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                    child: SizedBox(
+                      height: 100,
+                      child: Column(
+                          children: [
+                            title,
+                            Expanded(
+                              child: Row(
                                 children: [
-                                  title,
-                                  tags(context)
-                                ],
-                              )),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: nutritionalInfo,
+                                  Expanded(child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 8.0),
+                                        child: tags(context),
+                                      ),
+                                    ])
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: nutritionalInfo,
+                                  ),
+                                ]
                               ),
-                            ]
-                        ),
+                            ),
+                          ]
                       ),
                     ),
-                  ]
-              ),
-
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    child: Icon(
-                        recipe.saved ?  Icons.star : Icons.star_border,
-                        color: recipe.saved ? Colors.red : null
-                    ),
-                    onTap: () {
-                      FirebaseFirestore.instance.runTransaction((transaction) async {
-                        DocumentReference ref = FirebaseFirestore.instance.collection('recipes').doc(recipe.slug);
-                        DocumentSnapshot snapshot = await transaction.get(ref);
-                        transaction.update(ref, {
-                          'saved': !snapshot['saved']
-                        });
-                      });
-                    },
                   ),
+                ]
+            ),
+
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  child: Icon(
+                      recipe.saved ?  Icons.star : Icons.star_border,
+                      color: recipe.saved ? Colors.red : null
+                  ),
+                  onTap: () {
+                    FirebaseFirestore.instance.runTransaction((transaction) async {
+                      DocumentReference ref = FirebaseFirestore.instance.collection('recipes').doc(recipe.slug);
+                      DocumentSnapshot snapshot = await transaction.get(ref);
+                      transaction.update(ref, {
+                        'saved': !snapshot['saved']
+                      });
+                    });
+                  },
                 ),
               ),
+            ),
 
-            ])
+          ])
 
-        ),
       ),
     );
   }

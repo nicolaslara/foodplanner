@@ -46,7 +46,12 @@ class RecipeList extends StatelessWidget {
             stream: query.snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
-              return ListView.builder(
+              return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200,
+                      childAspectRatio: 2 / 3,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) => _buildRow(snapshot.data.documents[index])
               );
