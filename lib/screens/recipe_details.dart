@@ -34,7 +34,7 @@ class RecipeDetails extends StatelessWidget {
     if (recipe.images.length > 0){
       return SizedBox(
         height: MediaQuery.of(context).size.width,
-        child: ListView(
+        child: PageView(
             scrollDirection: Axis.horizontal,
             children: recipe.images.reversed.map((image) {
               return SizedBox(width: 410,
