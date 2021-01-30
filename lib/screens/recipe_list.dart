@@ -32,7 +32,7 @@ class RecipeList extends StatelessWidget {
     if (this.selected){
       query = query.where('saved', isEqualTo: true);
     } else {
-      filters.all.forEach((String key, Map<Symbol, String> value) {
+      filters.all.forEach((String key, Map<Symbol, dynamic> value) {
         query = Function.apply(query.where, [key], value);
       });
     }

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/filters.dart';
 import 'package:foodplanner/stores/navigation_controls.dart';
+import 'package:foodplanner/stores/tag_pool.dart';
 import 'package:foodplanner/widgets/navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,7 @@ class FoodPlanner extends StatelessWidget {
               providers: [
                 ChangeNotifierProvider(create: (context) => NavigationController()),
                 ChangeNotifierProvider(create: (context) => Filters()),
+                ChangeNotifierProvider(create: (context) => TagPool())
               ],
               child: Navigation()
           );

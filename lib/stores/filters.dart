@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Filters extends ChangeNotifier {
-  Map<String, Map<Symbol, String>> _filters = {};
-  Map<String, Map<Symbol, String>> get all => _filters;
+  Map<String, Map<Symbol, dynamic>> _filters = {};
+  Map<String, Map<Symbol, dynamic>> get all => _filters;
 
   String value(key){
     var vals = _filters[key];
