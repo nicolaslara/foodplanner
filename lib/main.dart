@@ -52,9 +52,9 @@ class FoodPlanner extends StatelessWidget {
           );
         }else {
           app =  Scaffold(
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: Colors.deepOrangeAccent,
               body: Center(
-                  child: Text("Initializing Firebase!",
+                  child: Text("Initializing...",
                     style: TextStyle(color: Colors.white),
                   )
               )

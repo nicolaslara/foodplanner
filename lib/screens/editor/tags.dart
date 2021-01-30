@@ -5,7 +5,9 @@ import 'package:foodplanner/widgets/recipe_card.dart';
 
 class TagEditor extends StatefulWidget {
   final List<String> tags;
-  const TagEditor({Key key, this.tags}) : super(key: key);
+  final List<String> tagSuggestions;
+
+  const TagEditor({Key key, this.tags, this.tagSuggestions}) : super(key: key);
 
   @override
   TagEditorState createState() => TagEditorState();
@@ -20,6 +22,7 @@ class TagEditorState  extends State<TagEditor> {
 
   @override
   void initState(){
+
     super.initState();
     if (widget.tags != null){
       tags = List.from(widget.tags);
@@ -32,10 +35,10 @@ class TagEditorState  extends State<TagEditor> {
       }),
       textSubmitted: (text) => setState(() {
         if (text != "") {
-          tags.add(text);
+          tags.add(text.toLowerCase().trim());
         }
       }),
-      suggestions: ["tag", "test"],
+      suggestions: widget.tagSuggestions,
     );
   }
 
@@ -70,7 +73,6 @@ class TagEditorState  extends State<TagEditor> {
           trailing: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                print(tagAutocompleteField);
                 tagAutocompleteField.triggerSubmitted();
               }),
         ),

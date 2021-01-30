@@ -9,10 +9,9 @@ import 'package:collection/collection.dart';
 class TagPool extends ChangeNotifier {
   Map<String, String> tags = {};
   StreamSubscription _subscription;
+  CollectionReference collection = FirebaseFirestore.instance.collection('recipes');
 
   TagPool() : super() {
-    CollectionReference collection = FirebaseFirestore.instance.collection('recipes');
-
 
     _subscription = collection.snapshots().listen((QuerySnapshot snapshot)  {
       if (snapshot.docs.isEmpty) {
@@ -26,6 +25,16 @@ class TagPool extends ChangeNotifier {
         });
       });
       notifyListeners();
+    });
+  }
+
+  fetchTags() async {
+    QuerySnapshot query = await collection.orderBy('title').get();
+    query.docs.forEach((doc) {
+      doc['tags'].forEach((tag) {
+        String defaultImage = tags.containsKey(tag) ? tags[tag] : '';
+        tags[tag] = doc['images'].isNotEmpty ? doc['images'][0] : defaultImage;
+      });
     });
   }
 

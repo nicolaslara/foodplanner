@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/editor/tags.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
+import 'package:foodplanner/stores/tag_pool.dart';
+import 'package:provider/provider.dart';
 import 'package:slugify/slugify.dart';
 
 import '../../main.dart';
@@ -41,6 +43,8 @@ class EditRecipeState  extends State<EditRecipe> {
 
   @override
   Widget build(BuildContext context) {
+    TagPool tagPool = TagPool();
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -78,7 +82,15 @@ class EditRecipeState  extends State<EditRecipe> {
                     initialValue: recipe.url,
                     onSaved: (val) => recipe.url = val,
                   ),
-                  TagEditor(key: _tagsKey, tags: recipe.tags),
+                  FutureBuilder(
+                      future: tagPool.fetchTags(),
+                      builder: (context, snapshot)  {
+                        if (snapshot.connectionState == ConnectionState.done){
+                          return TagEditor(key: _tagsKey, tags: recipe.tags, tagSuggestions: tagPool.tags.keys.toList());
+                        }
+                        return Container();
+                      }
+                  ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
@@ -90,7 +102,10 @@ class EditRecipeState  extends State<EditRecipe> {
                           if (recipe.slug == null){
                             recipe.slug = Slugify(recipe.title);
                           }
-                          recipe.tags = _tagsKey.currentState.tags;
+
+                          _tagsKey.currentState.tags.remove('all');
+                          _tagsKey.currentState.tags.remove('no tag');
+                          recipe.tags = _tagsKey.currentState.tags.toSet().toList();
 
                           List<String> images = _imagesKey.currentState.existingImages;
 

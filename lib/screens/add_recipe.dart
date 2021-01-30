@@ -76,7 +76,6 @@ class AddRecipeState  extends State<AddRecipe>  {
       textChanged: (text) => currentText = text,
       textSubmitted: (text) => setState(() {
         if (text != "") {
-          print('test');
           print(added);
           added.add(text);
         }
