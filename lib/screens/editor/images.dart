@@ -2,6 +2,7 @@
 import 'dart:io';
 import "dart:math" show pi;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -120,7 +121,7 @@ class ImagesState  extends State<Images> {
       return existingImages.map((image)=> Padding(
         padding: const EdgeInsets.all(4.0),
         child: imageWithDelete(
-          image: Image.network(image),
+          image: CachedNetworkImage(imageUrl: image,),
           onDelete: () {
             setState(() {
               existingImages.remove(image);

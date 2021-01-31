@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/recipe_details.dart';
@@ -41,7 +42,7 @@ class RecipeCard extends StatelessWidget {
     if (recipe.images.length > 0) {
       return FittedBox(
           fit: BoxFit.cover,
-          child: Image.network(recipe.images[recipe.images.length - 1])
+          child: CachedNetworkImage(imageUrl: recipe.images[recipe.images.length - 1])
       );
     } else {
       return FlutterLogo();

@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
@@ -21,10 +22,11 @@ class RecipeDetails extends StatelessWidget {
         boundaryMargin: EdgeInsets.all(8),
         minScale: 0.1,
         maxScale: 4,
-        child: Image.network(
-          image,
-          height: double.infinity,
-          width: double.infinity,
+        child: CachedNetworkImage(
+            imageUrl: image,
+            height: double.infinity,
+            width: double.infinity,
+            placeholder: (context, url) => CircularProgressIndicator()
         ),
       ),
     );
@@ -39,7 +41,8 @@ class RecipeDetails extends StatelessWidget {
             children: recipe.images.reversed.map((image) {
               return SizedBox(width: 410,
                   child: GestureDetector(
-                      child: FittedBox(child: Image.network(image), fit: BoxFit.cover),
+                      child: FittedBox(
+                          child: CachedNetworkImage(imageUrl: image), fit: BoxFit.cover),
                       onTap:() {
                         navigatorKey.currentState.push(
                           MaterialPageRoute(builder: (context) => fullScreenImage(image)),

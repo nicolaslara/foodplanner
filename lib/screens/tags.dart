@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/constants.dart';
 import 'package:foodplanner/stores/filters.dart';
@@ -35,7 +36,7 @@ class Tags extends StatelessWidget {
                     height: 80,
                     child: FittedBox(
                         fit: BoxFit.cover,
-                        child: image.isNotEmpty ? Image.network(image) : FlutterLogo()
+                        child: image.isNotEmpty ? CachedNetworkImage(imageUrl: image) : FlutterLogo()
                     ),
                   ),
                   Center(child: Text(tag, style: TextStyle(fontSize: mediumFont)))
