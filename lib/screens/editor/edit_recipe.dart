@@ -73,15 +73,6 @@ class EditRecipeState  extends State<EditRecipe> {
                       return null;
                     },
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: 'Source',
-                        border: InputBorder.none,
-                        hintText: 'http://www.superrecipes.com/delicious/'
-                    ),
-                    initialValue: recipe.url,
-                    onSaved: (val) => recipe.url = val,
-                  ),
                   FutureBuilder(
                       future: tagPool.fetchTags(),
                       builder: (context, snapshot)  {
@@ -91,6 +82,17 @@ class EditRecipeState  extends State<EditRecipe> {
                         return Container();
                       }
                   ),
+
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Source',
+                        border: InputBorder.none,
+                        hintText: 'http://www.superrecipes.com/delicious/'
+                    ),
+                    initialValue: recipe.url,
+                    onSaved: (val) => recipe.url = val,
+                  ),
+
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(

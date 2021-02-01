@@ -64,6 +64,21 @@ class RecipeDetails extends StatelessWidget {
     }
   }
 
+  Widget get nutritionalInfo {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('235 kcal', style: TextStyle(fontSize: mediumFont),),
+            Text('P: 18g', style: TextStyle(fontSize: smallFont)),
+            Text('C: 15g', style: TextStyle(fontSize: smallFont)),
+            Text('F: 3g', style: TextStyle(fontSize: smallFont))
+          ]
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +105,14 @@ class RecipeDetails extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  SizedBox(height: 10),
                   Text(
                     recipe.title,
                     style: TextStyle(fontSize: bigFont),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  SizedBox(height: 20),
 
                   SizedBox(
                     height: 30,
@@ -104,8 +121,18 @@ class RecipeDetails extends StatelessWidget {
                         children: [...recipe.tags.map((t)=>Tag(title: t)).toList()]),
                   ),
 
-                  GestureDetector(
-                    child: Text(recipe.url),
+                  SizedBox(height: 20),
+
+                  recipe.url.isNotEmpty ? GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 30),
+                      child: Text(
+                        recipe.url,
+                        style: TextStyle(fontSize: mediumFont, color: Colors.lightBlue),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                    ),
                     onTap: () => {
                       navigatorKey.currentState.push(
                           MaterialPageRoute(builder: (context) => Scaffold(
@@ -118,7 +145,9 @@ class RecipeDetails extends StatelessWidget {
                               ))
                           ))
                     },
-                  ),
+                  ) : Container(),
+
+                  nutritionalInfo,
 
                 ],
               ),
