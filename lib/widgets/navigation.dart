@@ -87,9 +87,10 @@ class _NavigationState extends State<Navigation> {
           child: PageView(
             controller: navController.pageController,
             children: _pageList,
-            onPageChanged: (index) {
-              navController.setPage(index);
-            },
+            // ToDo: This conflicts with the bottom navigation. Figure out a way to fix it
+            // onPageChanged: (index) {
+            //   navController.setPage(index);
+            // },
           ),
           onWillPop: () {
             if (navigatorKey.currentState.canPop()) {
@@ -151,8 +152,9 @@ class _NavigationState extends State<Navigation> {
             type: BottomNavigationBarType.fixed,
             items: _pageButtons,
             currentIndex: navController.currentPage,
-            onTap: (int index){
+            onTap: (int index) {
               NavigationController nav = Provider.of<NavigationController>(context);
+              //print('BottonTap $index');
               nav.setPage(index);
             },
           ),
