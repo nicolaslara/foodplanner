@@ -22,11 +22,11 @@ class Tag extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 2.0),
       child: Chip(
-        backgroundColor: filters != null && filters.value('tags') == title  ? Colors.lightGreenAccent : null,
+        backgroundColor: filters != null && filters.value('tags') == title  ? Colors.pink[500] : Colors.black54,
         deleteIcon: Icon( Icons.close, ),
         onDeleted: onDelete,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        label: Text(title, style: TextStyle(fontSize: smallFont)),
+        label: Text(title, style: TextStyle(fontSize: smallFont, color: Colors.white)),
       ),
     );
   }
