@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -196,6 +197,7 @@ class EditRecipeState  extends State<EditRecipe> {
                             // e.g, e.code == 'canceled'
                             print('ERROR');
                             print(e);
+                            FirebaseCrashlytics.instance.recordError(e, e.stackTrace);
                             scaffold.showSnackBar(SnackBar(content: Text("Can't upload images")));
                             return;
                           }

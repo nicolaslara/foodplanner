@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -48,6 +49,7 @@ Future<void> showDeleteDialog(context, recipe) async {
                 );
               } catch (e) {
                 print(e);
+                FirebaseCrashlytics.instance.recordFlutterError(e);
                 Fluttertoast.showToast(
                     msg: 'Error deleting',
                     toastLength: Toast.LENGTH_SHORT,

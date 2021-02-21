@@ -82,6 +82,7 @@ class FoodPlannerState extends State<FoodPlanner> {
                         userCredential = credential;
                       });
                     } catch (e) {
+                      FirebaseCrashlytics.instance.recordFlutterError(e);
                       Fluttertoast.showToast(
                           msg: 'Error signing in',
                           toastLength: Toast.LENGTH_SHORT,
@@ -115,24 +116,26 @@ class FoodPlannerState extends State<FoodPlanner> {
         if (snapshot.connectionState == ConnectionState.done) {
           FirebaseAuth auth = FirebaseAuth.instance;
           FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+          app = StreamBuilder(
+              stream: auth.authStateChanges(),
+              builder: (context, snapshot) {
+                if (auth.currentUser == null) {
+                  return loginScreen(context);
+                } else {
+                  FirebaseCrashlytics.instance.setUserIdentifier(auth.currentUser.uid);
+                  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-          if (auth.currentUser == null){
-            // Login Screeen
-            app = loginScreen(context);
-          } else {
-            FirebaseCrashlytics.instance.setUserIdentifier(auth.currentUser.uid);
-            FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
-            app = MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(create: (context) => NavigationController()),
-                  ChangeNotifierProvider(create: (context) => Filters()),
-                  ChangeNotifierProvider(create: (context) => TagPool())
-                ],
-                child: Navigation()
-            );
-
-          }
+                  return MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(create: (context) => NavigationController()),
+                        ChangeNotifierProvider(create: (context) => Filters()),
+                        ChangeNotifierProvider(create: (context) => TagPool())
+                      ],
+                      child: Navigation()
+                  );
+                }
+              }
+          );
 
         }else {
           app =  Scaffold(

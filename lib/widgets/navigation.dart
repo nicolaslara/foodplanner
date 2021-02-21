@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/main.dart';
 import 'package:foodplanner/screens/add_recipe.dart';
@@ -20,9 +21,11 @@ class FourthScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+
           },
-          child: Text('Go back!'),
+          child: Text('Log out!'),
         ),
       ),
     );
