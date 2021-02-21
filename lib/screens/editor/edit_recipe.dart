@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/screens/editor/tags.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/stores/tag_pool.dart';
-import 'package:provider/provider.dart';
+
 import 'package:slugify/slugify.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 
 import '../../main.dart';
 import 'images.dart';
@@ -95,8 +96,17 @@ class EditRecipeState  extends State<EditRecipe> {
 
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: ElevatedButton(
-                      onPressed: () async {
+                    child: TapDebouncer(
+                      cooldown: const Duration(milliseconds: 5000),
+                      builder: (BuildContext context, TapDebouncerFunc onTap) {
+                        return ElevatedButton(
+                          onPressed: onTap,
+                          child: onTap == null
+                              ? const CircularProgressIndicator()
+                              : const Text('Submit'),
+                        );
+                      },
+                      onTap: () async {
                         final scaffold = _scaffoldKey.currentState;
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
@@ -154,7 +164,6 @@ class EditRecipeState  extends State<EditRecipe> {
                           scaffold.showSnackBar(SnackBar(content: Text('Error')));
                         }
                       },
-                      child: Text('Submit'),
                     ),
                   )
                 ]

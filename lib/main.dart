@@ -120,6 +120,9 @@ class FoodPlannerState extends State<FoodPlanner> {
             // Login Screeen
             app = loginScreen(context);
           } else {
+            FirebaseCrashlytics.instance.setUserIdentifier(auth.currentUser.uid);
+            FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
             app = MultiProvider(
                 providers: [
                   ChangeNotifierProvider(create: (context) => NavigationController()),
