@@ -62,10 +62,10 @@ class RecipeCard extends StatelessWidget {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('235 kcal', style: TextStyle(fontSize: smallFont),),
-          Text('P: 18g', style: TextStyle(fontSize: smallFont)),
-          Text('C: 15g', style: TextStyle(fontSize: smallFont)),
-          Text('F: 3g', style: TextStyle(fontSize: smallFont))
+          recipe.kcal != null ? Text('${recipe.kcal} kcal', style: TextStyle(fontSize: smallFont),) : Container(),
+          recipe.protein != null ? Text('P: ${recipe.protein}g', style: TextStyle(fontSize: smallFont)) : Container(),
+          recipe.carbs != null ? Text('C: ${recipe.carbs}g', style: TextStyle(fontSize: smallFont)) : Container(),
+          recipe.fat != null ? Text('F: ${recipe.fat}g', style: TextStyle(fontSize: smallFont)) : Container()
         ]
     );
   }

@@ -42,6 +42,30 @@ class EditRecipeState  extends State<EditRecipe> {
     }
   }
 
+  Widget macrosField(label, hint, value, {onSaved}){
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: label,
+          border: InputBorder.none,
+          hintText: hint
+      ),
+      initialValue: value?.toString(),
+      keyboardType: TextInputType.number,
+      validator: (val) {
+        if (val.isEmpty){
+          return null;
+        }
+        try {
+          int.parse(val);
+          return null;
+        } catch (e){
+          return 'Number required';
+        }
+      },
+      onSaved: onSaved,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     TagPool tagPool = TagPool();
@@ -90,9 +114,25 @@ class EditRecipeState  extends State<EditRecipe> {
                         border: InputBorder.none,
                         hintText: 'http://www.superrecipes.com/delicious/'
                     ),
-                    initialValue: recipe.url,
+                    initialValue: recipe.url == 'None' ? '' : recipe.url,
                     onSaved: (val) => recipe.url = val,
                   ),
+
+
+                  macrosField('KCal', '350', recipe.kcal,
+                      onSaved:  (val) => recipe.kcal = val.isNotEmpty ? int.parse(val) : null
+                  ),
+                  macrosField('Protein', '32', recipe.protein,
+                      onSaved:  (val) => recipe.protein = val.isNotEmpty ? int.parse(val) : null
+                  ),
+                  macrosField('Carbs', '25', recipe.carbs,
+                      onSaved:  (val) => recipe.carbs = val.isNotEmpty ? int.parse(val) : null
+                  ),
+                  macrosField('Fat', '18', recipe.fat,
+                      onSaved:  (val) => recipe.fat = val.isNotEmpty ? int.parse(val) : null
+                  ),
+
+
 
                   Align(
                     alignment: Alignment.bottomRight,
@@ -144,6 +184,12 @@ class EditRecipeState  extends State<EditRecipe> {
                             'saved': false,
                             'new': true,
                             'images': images,
+                            'kcal': recipe.kcal,
+                            'macros': {
+                              'protein': recipe.protein,
+                              'carbs': recipe.carbs,
+                              'fat': recipe.fat,
+                            }
                           };
 
                           final recipes = FirebaseFirestore.instance.collection('recipes');

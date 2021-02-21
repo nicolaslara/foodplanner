@@ -1,6 +1,17 @@
 
 class Recipe {
-  Recipe({this.title, this.slug, this.saved, this.tags, this.images, this.url}) : super() {
+  Recipe({
+    this.title,
+    this.slug,
+    this.saved,
+    this.tags,
+    this.images,
+    this.url,
+    this.kcal,
+    this.protein,
+    this.carbs,
+    this.fat,
+  }) : super() {
     this.title = this.title?.replaceAll('\n', '');
   }
 
@@ -10,4 +21,10 @@ class Recipe {
   bool saved = false;
   List<String> tags = [];
   List<String> images = [];
+
+  int kcal;
+  int protein;
+  int carbs;
+  int fat;
+
 }

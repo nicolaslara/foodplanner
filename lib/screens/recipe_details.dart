@@ -70,10 +70,10 @@ class RecipeDetails extends StatelessWidget {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('235 kcal', style: TextStyle(fontSize: mediumFont),),
-            Text('P: 18g', style: TextStyle(fontSize: smallFont)),
-            Text('C: 15g', style: TextStyle(fontSize: smallFont)),
-            Text('F: 3g', style: TextStyle(fontSize: smallFont))
+            recipe.kcal != null ? Text('${recipe.kcal} kcal', style: TextStyle(fontSize: mediumFont),) : Container(),
+            recipe.protein != null ? Text('P: ${recipe.protein}g', style: TextStyle(fontSize: smallFont)) : Container(),
+            recipe.carbs != null ? Text('C: ${recipe.carbs}g', style: TextStyle(fontSize: smallFont)) : Container(),
+            recipe.fat != null ? Text('F: ${recipe.fat}g', style: TextStyle(fontSize: smallFont)) : Container()
           ]
       ),
     );
@@ -127,7 +127,7 @@ class RecipeDetails extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 4.0, right: 30),
                       child: Text(
-                        recipe.url,
+                        recipe.url == 'None' ? '' : recipe.url,
                         style: TextStyle(fontSize: mediumFont, color: Colors.lightBlue),
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,

@@ -14,12 +14,17 @@ class RecipeList extends StatelessWidget {
   final bool selected;
 
   Widget _buildRow(document) {
+    Map macros = document.data()["macros"];
     Recipe _recipe = Recipe(
         slug: document.reference.id,
         title: document["title"],
         saved: document["saved"] ?? false,
         images: document["images"].cast<String>(),
         url: document["url"],
+        kcal: document.data()["kcal"],
+        protein: macros != null ? macros['protein'] : null,
+        carbs: macros != null ? macros['protein'] : null,
+        fat: macros != null ? macros['protein'] : null,
         tags: document["tags"].cast<String>()
     );
     return RecipeCard(recipe: _recipe);
