@@ -118,6 +118,17 @@ class EditRecipeState  extends State<EditRecipe> {
                     onSaved: (val) => recipe.url = val,
                   ),
 
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: 'Notes',
+                        border: InputBorder.none,
+                        hintText: 'This one is really good for parties!! 🥳'
+                    ),
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    initialValue: recipe.notes,
+                    onSaved: (val) => recipe.notes = val,
+                  ),
 
                   macrosField('KCal', '350', recipe.kcal,
                       onSaved:  (val) => recipe.kcal = val.isNotEmpty ? int.parse(val) : null
@@ -185,6 +196,7 @@ class EditRecipeState  extends State<EditRecipe> {
                             'new': true,
                             'images': images,
                             'kcal': recipe.kcal,
+                            'notes': recipe.notes,
                             'macros': {
                               'protein': recipe.protein,
                               'carbs': recipe.carbs,

@@ -25,6 +25,7 @@ class RecipeList extends StatelessWidget {
         protein: macros != null ? macros['protein'] : null,
         carbs: macros != null ? macros['protein'] : null,
         fat: macros != null ? macros['protein'] : null,
+        notes: document.data()["notes"],
         tags: document["tags"].cast<String>()
     );
     return RecipeCard(recipe: _recipe);

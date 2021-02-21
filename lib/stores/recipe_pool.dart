@@ -11,6 +11,7 @@ class Recipe {
     this.protein,
     this.carbs,
     this.fat,
+    this.notes,
   }) : super() {
     this.title = this.title?.replaceAll('\n', '');
   }
@@ -26,5 +27,7 @@ class Recipe {
   int protein;
   int carbs;
   int fat;
+
+  String notes;
 
 }

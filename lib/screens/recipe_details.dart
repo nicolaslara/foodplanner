@@ -149,6 +149,7 @@ class RecipeDetails extends StatelessWidget {
 
                   nutritionalInfo,
 
+                  recipe.notes != null ? Text(recipe.notes) : Container()
                 ],
               ),
             )
