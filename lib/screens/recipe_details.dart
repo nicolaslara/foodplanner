@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
+import 'package:foodplanner/utils/helpers.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -79,7 +80,6 @@ class RecipeDetails extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,13 +87,22 @@ class RecipeDetails extends StatelessWidget {
           title: Text(recipe.title),
           actions: [
             IconButton(
+              icon: const Icon(Icons.delete_forever_sharp),
+              color: Colors.red,
+              onPressed: () async {
+                await showDeleteDialog(context, recipe);
+              },
+            ),
+
+            IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
                 navigatorKey.currentState.push(
                   MaterialPageRoute(builder: (context) => EditRecipe(recipe)),
                 );
               },
-            )
+            ),
+
           ],
 
         ),

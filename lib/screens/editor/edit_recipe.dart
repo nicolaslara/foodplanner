@@ -2,9 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodplanner/screens/editor/tags.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/stores/tag_pool.dart';
+import 'package:foodplanner/utils/helpers.dart';
 
 import 'package:slugify/slugify.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
@@ -74,6 +76,16 @@ class EditRecipeState  extends State<EditRecipe> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Edit Recipe'),
+        actions: recipe.slug != null ? [
+          IconButton(
+            icon: const Icon(Icons.delete_forever_sharp),
+            color: Colors.red,
+            onPressed: () async {
+              await showDeleteDialog(context, recipe);
+              navigatorKey.currentState.pop();
+            },
+          ),
+        ] : [],
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -213,13 +225,26 @@ class EditRecipeState  extends State<EditRecipe> {
                             await doc.set(data);
                           }
 
-                          scaffold.showSnackBar(SnackBar(content: Text('Saved!')));
+                          Fluttertoast.showToast(
+                              msg: 'Saved!',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              fontSize: 16.0
+                          );
+
                           navigatorKey.currentState.pop();
                           if (navigatorKey.currentState.canPop()){
                             navigatorKey.currentState.pop();  // Temporarily pop twice while the states are not using shared states
                           }
                         } else {
-                          scaffold.showSnackBar(SnackBar(content: Text('Error')));
+                          Fluttertoast.showToast(
+                              msg: 'Error',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              fontSize: 16.0
+                          );
                         }
                       },
                     ),
