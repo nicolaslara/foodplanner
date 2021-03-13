@@ -43,7 +43,10 @@ class RecipeDetails extends StatelessWidget {
               return SizedBox(width: 410,
                   child: GestureDetector(
                       child: FittedBox(
-                          child: CachedNetworkImage(imageUrl: image), fit: BoxFit.cover),
+                          child: CachedNetworkImage(imageUrl: image),
+                          fit: BoxFit.cover,
+                          clipBehavior: Clip.hardEdge
+                      ),
                       onTap:() {
                         navigatorKey.currentState.push(
                           MaterialPageRoute(builder: (context) => fullScreenImage(image)),

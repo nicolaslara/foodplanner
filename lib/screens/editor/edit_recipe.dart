@@ -171,7 +171,6 @@ class EditRecipeState  extends State<EditRecipe> {
                         );
                       },
                       onTap: () async {
-                        final scaffold = _scaffoldKey.currentState;
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
 
@@ -198,7 +197,7 @@ class EditRecipeState  extends State<EditRecipe> {
                             print('ERROR');
                             print(e);
                             FirebaseCrashlytics.instance.recordError(e, e.stackTrace);
-                            scaffold.showSnackBar(SnackBar(content: Text("Can't upload images")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Can't upload images")));
                             return;
                           }
 

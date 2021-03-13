@@ -36,6 +36,7 @@ class Tags extends StatelessWidget {
                     height: 80,
                     child: FittedBox(
                         fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
                         child: image.isNotEmpty ? CachedNetworkImage(imageUrl: image) : FlutterLogo()
                     ),
                   ),

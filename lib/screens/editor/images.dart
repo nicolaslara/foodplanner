@@ -91,7 +91,8 @@ class ImagesState  extends State<Images> {
             height: imageSize,
             child: FittedBox(
                 child: image,
-                fit: BoxFit.cover
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge
             )
         ),
         SizedBox(

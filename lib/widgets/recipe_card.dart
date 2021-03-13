@@ -42,6 +42,7 @@ class RecipeCard extends StatelessWidget {
     if (recipe.images.length > 0) {
       return FittedBox(
           fit: BoxFit.cover,
+          clipBehavior: Clip.hardEdge,
           child: CachedNetworkImage(imageUrl: recipe.images[recipe.images.length - 1])
       );
     } else {

@@ -76,8 +76,10 @@ class FilterManagement extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(50.0),
-              child: RaisedButton(
-                color: Colors.blueAccent,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueAccent,
+                ),
                 child: Text('Filter', style: TextStyle(color: Colors.white, fontSize: mediumFont),),
                 onPressed: () {  },),
             )

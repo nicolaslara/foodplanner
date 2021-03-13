@@ -46,7 +46,8 @@ class AddRecipeState  extends State<AddRecipe>  {
             height: imageSize,
             child: FittedBox(
                 child: Image.file(image),
-                fit: BoxFit.cover
+                fit: BoxFit.cover,
+                clipBehavior: Clip.hardEdge
             )
         ),
       )).toList() + [
