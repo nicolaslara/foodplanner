@@ -156,9 +156,7 @@ class _NavigationState extends State<Navigation> {
             items: _pageButtons,
             currentIndex: navController.currentPage,
             onTap: (int index) {
-              NavigationController nav = Provider.of<NavigationController>(context);
-              //print('BottonTap $index');
-              nav.setPage(index);
+              navController.setPage(index);
             },
           ),
         ));
