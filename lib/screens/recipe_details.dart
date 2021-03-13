@@ -15,20 +15,27 @@ class RecipeDetails extends StatelessWidget {
 
   RecipeDetails(this.recipe);
 
-  Widget fullScreenImage(image){
+  Widget fullScreenImages(image){
+    int index = recipe.images.indexWhere((element) => element == image);
+    final PageController controller = PageController(initialPage: recipe.images.length - index - 1);
     return Scaffold(
-      //appBar: AppBar(),
       backgroundColor: Colors.black,
-      body: InteractiveViewer(
-        boundaryMargin: EdgeInsets.all(8),
-        minScale: 0.1,
-        maxScale: 4,
-        child: CachedNetworkImage(
-            imageUrl: image,
-            height: double.infinity,
-            width: double.infinity,
-            placeholder: (context, url) => CircularProgressIndicator()
-        ),
+      body: PageView(
+          controller: controller,
+          scrollDirection: Axis.horizontal,
+          children: recipe.images.reversed.map((image) {
+            return InteractiveViewer(
+              boundaryMargin: EdgeInsets.all(8),
+              minScale: 0.1,
+              maxScale: 4,
+              child: CachedNetworkImage(
+                  imageUrl: image,
+                  height: double.infinity,
+                  width: double.infinity,
+                  placeholder: (context, url) => CircularProgressIndicator()
+              ),
+            );
+          }).toList()
       ),
     );
   }
@@ -49,7 +56,7 @@ class RecipeDetails extends StatelessWidget {
                       ),
                       onTap:() {
                         navigatorKey.currentState.push(
-                          MaterialPageRoute(builder: (context) => fullScreenImage(image)),
+                          MaterialPageRoute(builder: (context) => fullScreenImages(image)),
                         );
                       }
                   )
