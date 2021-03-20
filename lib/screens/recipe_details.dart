@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:foodplanner/stores/recipe_pool.dart';
 import 'package:foodplanner/utils/helpers.dart';
 import 'package:foodplanner/widgets/recipe_card.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../constants.dart';
@@ -17,26 +19,21 @@ class RecipeDetails extends StatelessWidget {
 
   Widget fullScreenImages(image){
     int index = recipe.images.indexWhere((element) => element == image);
-    final PageController controller = PageController(initialPage: recipe.images.length - index - 1);
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: PageView(
-          controller: controller,
-          scrollDirection: Axis.horizontal,
-          children: recipe.images.reversed.map((image) {
-            return InteractiveViewer(
-              boundaryMargin: EdgeInsets.all(8),
-              minScale: 0.1,
-              maxScale: 4,
-              child: CachedNetworkImage(
-                  imageUrl: image,
-                  height: double.infinity,
-                  width: double.infinity,
-                  placeholder: (context, url) => CircularProgressIndicator()
-              ),
+    final PageController controller = PageController(initialPage: index);
+    return Container(
+        child: PhotoViewGallery.builder(
+          builder: (BuildContext context, int index) {
+            return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(recipe.images[index]),
+              minScale: PhotoViewComputedScale.contained,
+              //initialScale: PhotoViewComputedScale.contained * 0.8,
+              //heroAttributes: PhotoViewHeroAttributes(tag: galleryItems[index].id),
             );
-          }).toList()
-      ),
+          },
+          pageController: controller,
+          itemCount: recipe.images.length,
+          reverse: true,
+        )
     );
   }
 
