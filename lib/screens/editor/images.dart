@@ -5,6 +5,7 @@ import "dart:math" show pi;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 GlobalKey<CircularMenuState> animationKey = GlobalKey<CircularMenuState>();
@@ -36,9 +37,25 @@ class ImagesState  extends State<Images> {
 
   Future getImage({source=ImageSource.camera}) async {
     final pickedFile = await picker.getImage(source: source);
+    final File croppedFile =await ImageCropper.cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square,
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        )
+    );
     setState(() {
-      if (pickedFile != null) {
-        images.add(File(pickedFile.path));
+      if (croppedFile != null) {
+        images.add(croppedFile);
       } else {
         print('No image selected');
       }
