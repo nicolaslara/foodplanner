@@ -188,6 +188,7 @@ class EditRecipeState  extends State<EditRecipe> {
                             print(_imagesKey.currentState.images);
                             FirebaseStorage bucket = FirebaseStorage.instanceFor(bucket: 'foodplanner-d4a4c');
                             for (var i=0; i < _imagesKey.currentState.images.length; i++){
+                              print('${recipe.slug}-$i');
                               Reference ref = bucket.ref('${recipe.slug}-$i');
                               await ref.putFile(_imagesKey.currentState.images[i]);
                               images.add(await ref.getDownloadURL());

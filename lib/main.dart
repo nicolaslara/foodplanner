@@ -11,11 +11,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:auth_buttons/auth_buttons.dart'
     show GoogleAuthButton;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
-void main() {
-  runApp(FoodPlanner());
+Future<void> main() async {
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://c6b48d498cba4ca3b93d41756450bc52@o542668.ingest.sentry.io/5780836';
+    },
+    appRunner: () => runApp(FoodPlanner()),
+  );
 }
 
 MaterialColor swatchify(MaterialColor color, int value) {
@@ -81,8 +87,11 @@ class FoodPlannerState extends State<FoodPlanner> {
                       setState(() {
                         userCredential = credential;
                       });
-                    } catch (e) {
-                      FirebaseCrashlytics.instance.recordFlutterError(e);
+                    } catch (exception, stackTrace) {
+                      await Sentry.captureException(
+                        exception,
+                        stackTrace: stackTrace,
+                      );
                       Fluttertoast.showToast(
                           msg: 'Error signing in',
                           toastLength: Toast.LENGTH_SHORT,
@@ -122,7 +131,7 @@ class FoodPlannerState extends State<FoodPlanner> {
                 if (auth.currentUser == null) {
                   return loginScreen(context);
                 } else {
-                  FirebaseCrashlytics.instance.setUserIdentifier(auth.currentUser.uid);
+                  //FirebaseCrashlytics.instance.setUserIdentifier(auth.currentUser.uid);
                   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
                   return MultiProvider(
